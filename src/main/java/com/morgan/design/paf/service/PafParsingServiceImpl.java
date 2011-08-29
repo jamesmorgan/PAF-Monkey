@@ -96,14 +96,15 @@ public class PafParsingServiceImpl implements PafParsingService {
 
 				int batchCount = 0;
 				int totalInsertCount = 0;
-				List<Object[]> parameters = Lists.newArrayList();
-
 				boolean removedFirstRow = false;
+				final int currentTotalLineLength = definition.getTotalLineLength();
+
+				List<Object[]> parameters = Lists.newArrayList();
 				for (final String line : fileReader) {
 					final List<Object> paramValues = Lists.newArrayList();
 					int currentCharIndex = 0;
 					for (final ColumnDefinition column : columns) {
-						if (column.isNotFiller()) {
+						if (confirmValidDataLine(currentTotalLineLength, line, column)) {
 							paramValues.add(line.substring(currentCharIndex, currentCharIndex + column.getLength()).trim());
 						}
 						currentCharIndex += column.getLength();
@@ -138,16 +139,30 @@ public class PafParsingServiceImpl implements PafParsingService {
 		}
 	}
 
-	// Only remove the footer row if one data file or the last in a series
+	/**
+	 * Ensure the working line is the exact size of expected data and that current column is not a filler column
+	 */
+	private boolean confirmValidDataLine(final int currentTotalLineLength, final String line, final ColumnDefinition column) {
+		return column.isNotFiller() && line.length() == currentTotalLineLength;
+	}
+
+	/**
+	 * Only remove the footer row if one data file or the last in a series
+	 */
 	private boolean shouldRemoveFooterRow(final List<File> dataFiles, final int dataFileIndex) {
 		return 1 == dataFiles.size() || dataFileIndex == dataFiles.size() - 1;
 	}
 
-	// Only remove the header row if one data file or the first in a series
+	/**
+	 * Only remove the header row if one data file or the first in a series
+	 */
 	private boolean shouldRemoveHeaderRow(final List<File> dataFiles, final int dataFileIndex, final boolean removedFirstRow) {
 		return !removedFirstRow && (1 == dataFiles.size() || dataFileIndex == 0);
 	}
 
+	/**
+	 * Create the batch update statement used when saving PAf data, dynamically built using the given table definition
+	 */
 	private String createBatchUpdateStatement(final TableDefinition definition) {
 		final int columnSize = definition.columnSize();
 

@@ -48,6 +48,14 @@ public class TableDefinition {
 		this.columns = columns;
 	}
 
+	public int getTotalLineLength() {
+		int length = 0;
+		for (final ColumnDefinition definition : this.columns) {
+			length = +definition.getLength();
+		}
+		return length;
+	}
+
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
