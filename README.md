@@ -38,7 +38,7 @@ e.g. -directory YourFullPathDir -host DbHost -username DbUser -password DbPasswo
 
 ## Notices 
 
-I can not be held responsible for any damage or harm which may come form using this tool. All the code is open source and available. You can do what you like with it :)
+I cannot be held responsible for any damage or harm which may come from using this tool. All the code is open source and available. You can do what you like with it :)
 
 ## License
 
