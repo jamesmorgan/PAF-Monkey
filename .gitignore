@@ -1,4 +1,7 @@
 .classpath
 .project
-.settings/*
-PAFMonkey/paf.log
+.settings/
+PAFMonkey/
+resources/
+bin/
+target/
