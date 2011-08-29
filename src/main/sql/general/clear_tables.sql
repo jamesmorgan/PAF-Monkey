@@ -1,0 +1,9 @@
+DELETE FROM `building_names`;
+DELETE FROM `localities`;
+DELETE FROM `mailsort`;
+DELETE FROM `organisations`;
+DELETE FROM `paf_address`;
+DELETE FROM `sub_building_name`;
+DELETE FROM `thoroughfare`;
+DELETE FROM `thoroughfare_descriptor`;
+DELETE FROM `udprn`;
