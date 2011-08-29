@@ -1,0 +1,51 @@
+
+# PAF-Monkey
+
+Created by James.E.Morgan http://www.morgan-design.com
+
+A light weight and simple utility application which can load and parse normalised raw PAF files from the Post Office U.k
+
+See: http://www2.royalmail.com/marketing-services/address-management-unit/address-data-products/postcode-address-file-paf
+
+## Usage:
+
+To run the application you can either simply use maven to package (mvn package) into a JAR file and invoke on the command line or can load the project and run through your favourite IDE.
+
+Before running this application you will need to run all .sql files found in /src/main/sql/ in order to create the raw data tables needed to load and save any paf data.
+
+## Arguments
+
+Command line arguments are as follows:
+
+### Mandatory Arguments
+
+* -directory = The directory where the path files are located, all path files should be found in one directory.
+* -host = The host of the DB you want to populate with the path data.
+* -username = The username to connect to your given database.
+* -password = The password for the given user to use when connecting to the given database.
+
+e.g. -directory YourFullPathDir -host DbHost -username DbUser -password DbPassword
+
+### Optional Arguments
+
+* -schema = The database name to use when populating paf data, default 'paf'
+
+### Unused / deprecated Arguments
+
+* -mode = Used to either SOURCE or UPDATE the paf file data, default 'SOURCE'. This is not yet fully supported and will be made optional at a later date.
+
+---------------------------------------
+
+## Notices 
+
+I can not be held responsible for any damage or harm which may come form using this tool. All the code is open source and available. You can do what you like with it :)
+
+## License
+
+> MIT License (MIT)
+> 
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+> 
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+> 
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
