@@ -14,6 +14,14 @@ public class ColumnDefinition {
 	private int length;
 	private String type;
 
+	public static ColumnDefinition create(final String name, final int length, final String type) {
+		final ColumnDefinition definition = new ColumnDefinition();
+		definition.setLength(length);
+		definition.setName(name);
+		definition.setType(type);
+		return definition;
+	}
+
 	public String getName() {
 		return this.name;
 	}
