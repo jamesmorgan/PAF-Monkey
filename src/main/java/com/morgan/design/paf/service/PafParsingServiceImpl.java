@@ -37,15 +37,14 @@ public class PafParsingServiceImpl implements PafParsingService {
 	private final Logger logger = LoggerFactory.getLogger(PafParsingService.class);
 
 	@Autowired
-	private PafRepository pafRepository;
-
-	@Autowired
 	private BasicDataSource dataSource;
 
 	private SimpleJdbcOperations pafJdbcOperations;
 
 	@Override
 	public void updatePafFiles(final CommandLinePafArgs pafArgs) {
+		constructDateSource(pafArgs);
+		this.pafJdbcOperations = new SimpleJdbcTemplate(this.dataSource);
 
 	}
 
