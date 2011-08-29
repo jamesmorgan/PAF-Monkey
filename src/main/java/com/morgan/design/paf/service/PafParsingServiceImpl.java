@@ -42,7 +42,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 	public void updatePafFiles(final CommandLinePafArgs pafArgs) {
 		constructDateSource(pafArgs);
 		this.pafJdbcOperations = new SimpleJdbcTemplate(this.dataSource);
-
+		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 
 	@Override
