@@ -1,0 +1,17 @@
+<table name="thoroughfare_descriptor" fileName="thdesc">
+	<column>
+		<name>ThoroughfareDescriptorKey</name>
+		<length>4</length>
+		<type>N</type>
+	</column>
+	<column>
+		<name>ThoroughfareDescriptor</name>
+		<length>20</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>ApprovedAbbreviation</name>
+		<length>6</length>
+		<type>A</type>
+	</column>
+</table>

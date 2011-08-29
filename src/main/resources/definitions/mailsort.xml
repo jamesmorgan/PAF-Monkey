@@ -1,0 +1,22 @@
+<table name="mailsort" fileName="mailsort">
+	<column>
+		<name>PostcodeOutwardCode</name>
+		<length>4</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>PostcodeSector</name>
+		<length>1</length>
+		<type>N</type>
+	</column>
+	<column>
+		<name>ResidueIdentifier</name>
+		<length>3</length>
+		<type>N</type>
+	</column>
+	<column>
+		<name>DirectWithinResidueIndicator</name>
+		<length>2</length>
+		<type>N</type>
+	</column>
+</table>

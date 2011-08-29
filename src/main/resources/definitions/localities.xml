@@ -1,0 +1,32 @@
+<table name="localities" fileName="local">
+	<column>
+		<name>LocalityKey</name>
+		<length>6</length>
+		<type>N</type>
+	</column>
+	<column>
+		<name>Filler</name>
+		<length>30</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>Filler</name>
+		<length>15</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>PostTown</name>
+		<length>30</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>DependentLocality</name>
+		<length>35</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>DoubleDependentLocality</name>
+		<length>35</length>
+		<type>A</type>
+	</column>
+</table>

@@ -1,0 +1,27 @@
+<table name="organisations" fileName="org">
+	<column>
+		<name>OrganisationKey</name>
+		<length>8</length>
+		<type>N</type>
+	</column>
+	<column>
+		<name>PostcodeType</name>
+		<length>1</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>OrganisationName</name>
+		<length>60</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>DepartmentName</name>
+		<length>60</length>
+		<type>A</type>
+	</column>
+	<column>
+		<name>Filler</name>
+		<length>24</length>
+		<type>A</type>
+	</column>
+</table>
