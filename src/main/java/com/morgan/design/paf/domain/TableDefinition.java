@@ -51,7 +51,7 @@ public class TableDefinition {
 	public int getTotalLineLength() {
 		int length = 0;
 		for (final ColumnDefinition definition : this.columns) {
-			length = +definition.getLength();
+			length += definition.getLength();
 		}
 		return length;
 	}
