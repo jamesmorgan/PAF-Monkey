@@ -20,5 +20,6 @@ public class PafArgsUnitTest {
 		assertThat(CommandLinePafArgs.parseArgs(args).schema, Is.is("paf"));
 		assertThat(CommandLinePafArgs.parseArgs(args).username, Is.is("DbUser"));
 		assertThat(CommandLinePafArgs.parseArgs(args).password, Is.is("DbPassword"));
+		assertThat(CommandLinePafArgs.parseArgs(args).definitionDirectory, Is.is("src/main/resources/definitions"));
 	}
 }

@@ -29,6 +29,7 @@ e.g. -directory YourFullPathDir -host DbHost -username DbUser -password DbPasswo
 ### Optional Arguments
 
 * -schema = The database name to use when populating paf data, default 'paf'
+* -definitionDirectory = The directory where the definition files data are held, default 'src/main/resources/definitions'
 
 ### Unused / deprecated Arguments
 

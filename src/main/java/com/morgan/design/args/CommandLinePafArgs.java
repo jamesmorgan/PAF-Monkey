@@ -9,6 +9,8 @@ import com.morgan.design.paf.domain.Mode;
  */
 public class CommandLinePafArgs {
 
+	private static final String DEFINITIONS_DIR = "src/main/resources/definitions";
+
 	private CommandLinePafArgs() {
 		//
 	}
@@ -31,6 +33,9 @@ public class CommandLinePafArgs {
 
 	@Parameter(names = { "-directory" }, description = "The directory where the PAF data is stored", required = true)
 	public String directory;
+
+	@Parameter(names = { "-definitionDirectory" }, description = "The directory where the definition files data are held", required = false)
+	public String definitionDirectory = DEFINITIONS_DIR;
 
 	@Parameter(names = { "-schema" }, description = "The database schema to be used", required = false)
 	public String schema = "paf";

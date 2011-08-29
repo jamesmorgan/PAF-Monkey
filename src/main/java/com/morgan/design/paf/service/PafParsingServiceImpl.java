@@ -1,9 +1,7 @@
 package com.morgan.design.paf.service;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +22,7 @@ import com.morgan.design.paf.domain.ColumnDefinition;
 import com.morgan.design.paf.domain.TableDefinition;
 import com.morgan.design.paf.exception.NoDataFilesFoundException;
 import com.morgan.design.paf.exception.NoDefinitionFilesFoundException;
+import com.morgan.design.paf.util.FileLoaderUtils;
 import com.morgan.design.paf.util.IterableBufferedFileReader;
 
 /**
@@ -31,8 +30,6 @@ import com.morgan.design.paf.util.IterableBufferedFileReader;
  */
 @Service
 public class PafParsingServiceImpl implements PafParsingService {
-
-	private static final String DEFINITIONS_DIR = "src/main/resources/definitions";
 
 	private final Logger logger = LoggerFactory.getLogger(PafParsingService.class);
 
@@ -54,12 +51,13 @@ public class PafParsingServiceImpl implements PafParsingService {
 		this.pafJdbcOperations = new SimpleJdbcTemplate(this.dataSource);
 
 		// traverse directory and find data files
-		final File[] dataFiles = retrieveFiles(pafArgs.directory, getDataFileFilter());
+		final File[] dataFiles = FileLoaderUtils.retrieveFiles(pafArgs.directory, FileLoaderUtils.getDataFileFilter());
 		validateDataFiles(pafArgs, dataFiles);
 
 		// if files found look up related definition file
-		final File[] definitionFiles = retrieveFiles(DEFINITIONS_DIR, getDefinitionFileFilter());
-		validateDefinitionFiles(definitionFiles);
+		final File[] definitionFiles =
+				FileLoaderUtils.retrieveFiles(pafArgs.definitionDirectory, FileLoaderUtils.getDefinitionFileFilter());
+		validateDefinitionFiles(pafArgs, definitionFiles);
 
 		// create objects from definition files
 		final List<TableDefinition> tableDefinitions = TableDefinitionBuilder.parseDefinitionFiles(definitionFiles);
@@ -192,28 +190,6 @@ public class PafParsingServiceImpl implements PafParsingService {
 		return String.format("INSERT INTO `%s` (%s) VALUES (%s) ", definition.getName(), columnDefs, columnValues);
 	}
 
-	private FileFilter getDefinitionFileFilter() {
-		return new FileFilter() {
-			@Override
-			public boolean accept(final File pathname) {
-				return pathname.getName().contains(".xml");
-			}
-		};
-	}
-
-	private FileFilter getDataFileFilter() {
-		return new FileFilter() {
-			@Override
-			public boolean accept(final File pathname) {
-				final int nameLength = pathname.getName().length();
-				if (nameLength == 0 || nameLength < 4) {
-					return false;
-				}
-				return pathname.getName().substring(nameLength - 4, nameLength).matches("[.c]{1,2}[\\d]{2,2}");
-			}
-		};
-	}
-
 	private Predicate<TableDefinition> tableToFileNamePredicate(final File dataFile) {
 		return new Predicate<TableDefinition>() {
 			@Override
@@ -237,25 +213,14 @@ public class PafParsingServiceImpl implements PafParsingService {
 		}
 	}
 
-	private void validateDefinitionFiles(final File[] definitionFiles) {
+	private void validateDefinitionFiles(final CommandLinePafArgs pafArgs, final File[] definitionFiles) {
 		if (validateFiles(definitionFiles)) {
-			throw new NoDefinitionFilesFoundException(DEFINITIONS_DIR);
+			throw new NoDefinitionFilesFoundException(pafArgs.definitionDirectory);
 		}
 	}
 
 	private boolean validateFiles(final File[] files) {
 		return null == files || 0 == files.length;
-	}
-
-	private File[] retrieveFiles(final String directory, final FileFilter fileFilter) {
-		final File dataDirectory = new File(directory);
-		File[] dataFiles = null;
-		if (dataDirectory.isDirectory()) {
-			dataFiles = dataDirectory.listFiles(fileFilter);
-			this.logger.debug("Found {} files", dataFiles.length);
-			this.logger.debug("Files found = {}", Arrays.toString(dataFiles));
-		}
-		return dataFiles;
 	}
 
 	private void constructDateSource(final CommandLinePafArgs pafArgs) {
