@@ -5,3 +5,4 @@ PAFMonkey/
 resources/
 bin/
 target/
+.springBeans

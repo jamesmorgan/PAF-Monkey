@@ -17,7 +17,7 @@
 	</appender>
 	
 	<root level="error">
-		<appender-ref ref="EMAIL" />
+		<appender-ref ref="FILE" />
 	</root>
 	
 	<root level="debug">
