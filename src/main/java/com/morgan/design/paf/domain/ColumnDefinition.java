@@ -51,7 +51,7 @@ public class ColumnDefinition {
 	}
 
 	public boolean isNotFiller() {
-		return !this.name.equals("Filler");
+		return !this.name.equalsIgnoreCase("Filler");
 	}
 
 	@Override

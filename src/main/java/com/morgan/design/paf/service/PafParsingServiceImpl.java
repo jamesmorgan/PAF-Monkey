@@ -24,6 +24,7 @@ import com.morgan.design.paf.exception.NoDataFilesFoundException;
 import com.morgan.design.paf.exception.NoDefinitionFilesFoundException;
 import com.morgan.design.paf.util.FileLoaderUtils;
 import com.morgan.design.paf.util.IterableBufferedFileReader;
+import com.morgan.design.paf.util.SqlUtils;
 
 /**
  * @author James Edward Morgan
@@ -89,7 +90,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 			try {
 				final IterableBufferedFileReader fileReader = new IterableBufferedFileReader(dataFile);
 
-				final String batchUpdate = createBatchUpdateStatement(definition);
+				final String batchUpdate = SqlUtils.createBatchUpdateStatement(definition);
 				this.logger.debug("Insert statement: {}", batchUpdate);
 
 				int batchCount = 0;
@@ -156,38 +157,6 @@ public class PafParsingServiceImpl implements PafParsingService {
 	 */
 	private boolean shouldRemoveHeaderRow(final List<File> dataFiles, final int dataFileIndex, final boolean removedFirstRow) {
 		return !removedFirstRow && (1 == dataFiles.size() || dataFileIndex == 0);
-	}
-
-	/**
-	 * Create the batch update statement used when saving PAf data, dynamically built using the given table definition
-	 */
-	private String createBatchUpdateStatement(final TableDefinition definition) {
-		final int columnSize = definition.columnSize();
-
-		// build column definition statement
-		String columnDefs = "";
-		for (int i = 0; i < columnSize; i++) {
-			final ColumnDefinition column = definition.getColumn(i);
-			if (column.isNotFiller()) {
-				columnDefs += "`" + column.getName() + "`";
-				if (i != columnSize - 1) {
-					columnDefs += ",";
-				}
-			}
-		}
-
-		// build place holder values for columns
-		String columnValues = "";
-		for (int i = 0; i < columnSize; i++) {
-			final ColumnDefinition column = definition.getColumn(i);
-			if (column.isNotFiller()) {
-				columnValues += "?";
-				if (i != columnSize - 1) {
-					columnValues += ",";
-				}
-			}
-		}
-		return String.format("INSERT INTO `%s` (%s) VALUES (%s) ", definition.getName(), columnDefs, columnValues);
 	}
 
 	private Predicate<TableDefinition> tableToFileNamePredicate(final File dataFile) {
