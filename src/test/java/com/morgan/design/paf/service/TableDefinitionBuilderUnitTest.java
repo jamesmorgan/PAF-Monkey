@@ -1,4 +1,4 @@
-package com.morgan.design.service;
+package com.morgan.design.paf.service;
 
 import static org.junit.Assert.assertThat;
 

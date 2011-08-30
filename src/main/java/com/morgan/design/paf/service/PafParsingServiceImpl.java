@@ -2,6 +2,7 @@ package com.morgan.design.paf.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.morgan.design.args.CommandLinePafArgs;
 import com.morgan.design.paf.domain.ColumnDefinition;
+import com.morgan.design.paf.domain.PafChangeLog;
 import com.morgan.design.paf.domain.TableDefinition;
 import com.morgan.design.paf.exception.NoDataFilesFoundException;
 import com.morgan.design.paf.exception.NoDefinitionFilesFoundException;
@@ -51,14 +53,20 @@ public class PafParsingServiceImpl implements PafParsingService {
 		constructDateSource(pafArgs);
 		this.pafJdbcOperations = new SimpleJdbcTemplate(this.dataSource);
 
+		final PafChangeLog changeLog = PafChangeLog.createSourceLog();
+
 		// traverse directory and find data files
 		final File[] dataFiles = FileLoaderUtils.retrieveFiles(pafArgs.directory, FileLoaderUtils.getDataFileFilter());
-		validateDataFiles(pafArgs, dataFiles);
+		if (filesDontExist(dataFiles)) {
+			throw new NoDataFilesFoundException(pafArgs.directory);
+		}
 
 		// if files found look up related definition file
 		final File[] definitionFiles =
 				FileLoaderUtils.retrieveFiles(pafArgs.definitionDirectory, FileLoaderUtils.getDefinitionFileFilter());
-		validateDefinitionFiles(pafArgs, definitionFiles);
+		if (filesDontExist(definitionFiles)) {
+			throw new NoDefinitionFilesFoundException(pafArgs.definitionDirectory);
+		}
 
 		// create objects from definition files
 		final List<TableDefinition> tableDefinitions = TableDefinitionBuilder.parseDefinitionFiles(definitionFiles);
@@ -76,12 +84,15 @@ public class PafParsingServiceImpl implements PafParsingService {
 			tableToFilesMapping.get(definition).add(dataFile);
 		}
 
-		for (final TableDefinition definitions : tableToFilesMapping.keySet()) {
-			populateTable(definitions, tableToFilesMapping.get(definitions));
+		for (final TableDefinition definition : tableToFilesMapping.keySet()) {
+			final int totalInsertCount = populateTable(definition, tableToFilesMapping.get(definition));
+			changeLog.setCount(definition, totalInsertCount);
 		}
 	}
 
-	private void populateTable(final TableDefinition definition, final List<File> dataFiles) {
+	private int populateTable(final TableDefinition definition, final List<File> dataFiles) {
+		int totalInsertCount = 0;
+
 		final List<ColumnDefinition> columns = definition.getColumns();
 		for (int dataFileIndex = 0; dataFileIndex < dataFiles.size(); dataFileIndex++) {
 			final File dataFile = dataFiles.get(dataFileIndex);
@@ -94,7 +105,6 @@ public class PafParsingServiceImpl implements PafParsingService {
 				this.logger.debug("Insert statement: {}", batchUpdate);
 
 				int batchCount = 0;
-				int totalInsertCount = 0;
 				boolean removedFirstRow = false;
 				final int currentTotalLineLength = definition.getTotalLineLength();
 
@@ -104,11 +114,10 @@ public class PafParsingServiceImpl implements PafParsingService {
 					int currentCharIndex = 0;
 					for (final ColumnDefinition column : columns) {
 						if (confirmValidDataLine(currentTotalLineLength, line, column)) {
-							paramValues.add(line.substring(currentCharIndex, currentCharIndex + column.getLength()).trim());
+							paramValues.add(createParam(line, currentCharIndex, column));
 						}
 						currentCharIndex += column.getLength();
 					}
-
 					parameters.add(paramValues.toArray());
 
 					if (shouldRemoveHeaderRow(dataFiles, dataFileIndex, removedFirstRow)) {
@@ -119,11 +128,19 @@ public class PafParsingServiceImpl implements PafParsingService {
 					batchCount++;
 					totalInsertCount++;
 
-					if (batchCount == 1000) {
-						this.logger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
-						this.pafJdbcOperations.batchUpdate(batchUpdate, parameters);
-						batchCount = 0;
-						parameters = Lists.newArrayList();
+					try {
+						if (batchCount == 1000) {
+							this.logger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
+							this.pafJdbcOperations.batchUpdate(batchUpdate, parameters);
+							batchCount = 0;
+							parameters = Lists.newArrayList();
+						}
+					}
+					catch (final Exception e) {
+						this.logger.error("Unknown Exception: ", e);
+						this.logger.error("parameters: " + Arrays.toString(parameters.toArray()));
+						this.logger.error("batchUpdate: " + batchUpdate);
+						throw e;
 					}
 				}
 
@@ -136,6 +153,19 @@ public class PafParsingServiceImpl implements PafParsingService {
 				this.logger.error("Unknown Exception: ", e);
 			}
 		}
+		return totalInsertCount;
+	}
+
+	/**
+	 * Determine and return the correct type of object for use when creating create batch update params
+	 * 
+	 * @return either {@link Integer} or {@link String}
+	 */
+	protected Object createParam(final String line, final int currentCharIndex, final ColumnDefinition column) {
+		final String paramValue = line.substring(currentCharIndex, currentCharIndex + column.getLength());
+		return column.isAlphaNumeric()
+				? (String) paramValue.trim()
+				: Integer.valueOf(paramValue);
 	}
 
 	/**
@@ -176,19 +206,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 		parameters.remove(parameters.size() - 1);
 	}
 
-	private void validateDataFiles(final CommandLinePafArgs pafArgs, final File[] dataFiles) {
-		if (validateFiles(dataFiles)) {
-			throw new NoDataFilesFoundException(pafArgs.directory);
-		}
-	}
-
-	private void validateDefinitionFiles(final CommandLinePafArgs pafArgs, final File[] definitionFiles) {
-		if (validateFiles(definitionFiles)) {
-			throw new NoDefinitionFilesFoundException(pafArgs.definitionDirectory);
-		}
-	}
-
-	private boolean validateFiles(final File[] files) {
+	private boolean filesDontExist(final File[] files) {
 		return null == files || 0 == files.length;
 	}
 
