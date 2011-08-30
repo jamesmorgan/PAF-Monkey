@@ -20,6 +20,7 @@ CREATE TABLE `paf_address` (
   `SmallUserOrganisationIndicator` varchar(1) NOT NULL DEFAULT '',
   `POBoxNumber` varchar(6) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`),
+  UNIQUE KEY(`AddressKey`,`OrganisationKey`,`PostcodeType`),
   KEY paf_address_index1 (`AddressKey`),
   KEY paf_address_index2 (`Postcode`),
   KEY paf_address_index3 (`LocalityKey`),
