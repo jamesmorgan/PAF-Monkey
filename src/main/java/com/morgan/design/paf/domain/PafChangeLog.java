@@ -1,5 +1,7 @@
 package com.morgan.design.paf.domain;
 
+import java.util.Date;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -7,7 +9,20 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class PafChangeLog {
 
+	private static final String UDPRN_KEY = "udprn";
+	private static final String THOROUGHFARE_DESCRIPTOR_KEY = "thoroughfare_descriptor";
+	private static final String THOROUGHFARE_KEY = "thoroughfare";
+	private static final String SUB_BUILDING_NAME = "sub_building_name";
+	private static final String PAF_ADDRESS__KEY = "paf_address";
+	private static final String ORGANISATION_KEY = "organisation";
+	private static final String MAILSORT_KEY = "mailsort";
+	private static final String LOCALITIES_KEY = "localities";
+	private static final String BUILDING_NAMES_KEY = "building_names";
+
 	private final Mode mode;
+	private Date startDate;
+	private Date endDate;
+
 	private int buildNames;
 	private int localities;
 	private int mailSort;
@@ -28,6 +43,14 @@ public class PafChangeLog {
 
 	public static PafChangeLog createUpdateLog() {
 		return new PafChangeLog(Mode.UPDATE);
+	}
+
+	public final void finish() {
+		this.startDate = new Date();
+	}
+
+	public final void begin() {
+		this.endDate = new Date();
 	}
 
 	public final int getBuildNames() {
@@ -70,6 +93,14 @@ public class PafChangeLog {
 		return this.mode;
 	}
 
+	public final Date getStartDate() {
+		return this.startDate;
+	}
+
+	public final Date getEndDate() {
+		return this.endDate;
+	}
+
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
@@ -87,31 +118,31 @@ public class PafChangeLog {
 
 	public void setCount(final TableDefinition definition, final int totalInsertCount) {
 		// TODO prevent this object from knowing about the db?
-		if (definition.getName().equalsIgnoreCase("building_names")) {
+		if (BUILDING_NAMES_KEY.equalsIgnoreCase(definition.getName())) {
 			this.buildNames = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("localities")) {
+		else if (LOCALITIES_KEY.equalsIgnoreCase(definition.getName())) {
 			this.localities = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("mailsort")) {
+		else if (MAILSORT_KEY.equalsIgnoreCase(definition.getName())) {
 			this.mailSort = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("organisation")) {
+		else if (ORGANISATION_KEY.equalsIgnoreCase(definition.getName())) {
 			this.organisations = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("paf_address")) {
+		else if (PAF_ADDRESS__KEY.equalsIgnoreCase(definition.getName())) {
 			this.pafAddress = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("sub_building_name")) {
+		else if (SUB_BUILDING_NAME.equalsIgnoreCase(definition.getName())) {
 			this.subBuildingName = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("thoroughfare_descriptor")) {
+		else if (THOROUGHFARE_DESCRIPTOR_KEY.equalsIgnoreCase(definition.getName())) {
 			this.thoroughfareDescriptor = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("thoroughfare")) {
+		else if (THOROUGHFARE_KEY.equalsIgnoreCase(definition.getName())) {
 			this.thoroughfare = totalInsertCount;
 		}
-		else if (definition.getName().equalsIgnoreCase("udprn")) {
+		else if (UDPRN_KEY.equalsIgnoreCase(definition.getName())) {
 			this.udprn = totalInsertCount;
 		}
 	}

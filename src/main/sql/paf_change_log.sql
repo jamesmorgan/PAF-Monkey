@@ -1,6 +1,7 @@
 CREATE TABLE `paf_change_log` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
-  `RunDate` date NOT NULL,
+  `StartDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `EndDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `Mode` enum('SOURCE','UPDATE', '') NOT NULL DEFAULT '',
   `BuildNames` int(10) unsigned NOT NULL DEFAULT '0',
   `Localities` int(10) unsigned NOT NULL DEFAULT '0',
