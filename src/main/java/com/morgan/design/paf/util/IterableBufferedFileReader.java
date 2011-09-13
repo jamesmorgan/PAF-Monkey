@@ -2,6 +2,7 @@ package com.morgan.design.paf.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 
 import com.google.common.base.Charsets;
@@ -22,13 +23,8 @@ public class IterableBufferedFileReader implements Iterable<String> {
 		this.reader = Files.newReader(file, Charsets.UTF_8);
 	}
 
-	public void close() {
-		try {
-			this.reader.close();
-		}
-		catch (final Exception ex) {
-			//
-		}
+	public void close() throws IOException {
+		this.reader.close();
 	}
 
 	@Override
@@ -46,7 +42,6 @@ public class IterableBufferedFileReader implements Iterable<String> {
 		}
 
 		@Override
-		@SuppressWarnings({ "synthetic-access", "unqualified-field-access" })
 		public boolean hasNext() {
 			if (this.assignedNextLine) {
 				return this.currentLine != null;

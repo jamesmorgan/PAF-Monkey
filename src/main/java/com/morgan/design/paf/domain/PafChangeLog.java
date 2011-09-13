@@ -86,6 +86,7 @@ public class PafChangeLog {
 	}
 
 	public void setCount(final TableDefinition definition, final int totalInsertCount) {
+		// TODO prevent this object from knowing about the db?
 		if (definition.getName().equalsIgnoreCase("building_names")) {
 			this.buildNames = totalInsertCount;
 		}

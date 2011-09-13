@@ -28,46 +28,53 @@ public class TableDefinitionBuilder {
 	private static final Logger logger = LoggerFactory.getLogger(TableDefinitionBuilder.class);
 
 	public static final List<TableDefinition> parseDefinitionFiles(final File[] definitionFiles) {
-		final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
 		final List<TableDefinition> definitions = Lists.newArrayList();
 		for (final File fileDef : definitionFiles) {
-			try {
-				final DocumentBuilder db = dbf.newDocumentBuilder();
-				final Document parse = db.parse(fileDef);
-				final Element element = parse.getDocumentElement();
-
-				final TableDefinition tableDefinition = new TableDefinition();
-				definitions.add(tableDefinition);
-				tableDefinition.setName(element.getAttribute("name"));
-				tableDefinition.setFileName(element.getAttribute("fileName"));
-
-				final List<ColumnDefinition> columnDefinitions = Lists.newArrayList();
-				tableDefinition.setColumns(columnDefinitions);
-				final NodeList nodeList = element.getElementsByTagName("column");
-				for (int i = 0; i < nodeList.getLength(); i++) {
-
-					final ColumnDefinition definition = new ColumnDefinition();
-					columnDefinitions.add(definition);
-
-					final NodeList nodes = nodeList.item(i).getChildNodes();
-					for (int x = 0; x < nodes.getLength(); x++) {
-						setColumnDefinitionFields(definition, nodes.item(x));
-					}
-				}
-
-			}
-			catch (final ParserConfigurationException pce) {
-				logger.error("ParserConfigurationException: ", pce);
-			}
-			catch (final SAXException se) {
-				logger.error("SAXException: ", se);
-			}
-			catch (final IOException ioe) {
-				logger.error("IOException: ", ioe);
+			final TableDefinition tableDef = loadTableDefinition(fileDef);
+			if (null != tableDef) {
+				definitions.add(tableDef);
 			}
 		}
 		return definitions;
+	}
+
+	public static final TableDefinition loadTableDefinition(final File fileDef) {
+		try {
+			final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			final DocumentBuilder db = dbf.newDocumentBuilder();
+			final Document parse = db.parse(fileDef);
+			final Element element = parse.getDocumentElement();
+
+			final TableDefinition tableDefinition = new TableDefinition();
+			tableDefinition.setName(element.getAttribute("name"));
+			tableDefinition.setFileName(element.getAttribute("fileName"));
+
+			final List<ColumnDefinition> columnDefinitions = Lists.newArrayList();
+			tableDefinition.setColumns(columnDefinitions);
+			final NodeList nodeList = element.getElementsByTagName("column");
+			for (int i = 0; i < nodeList.getLength(); i++) {
+
+				final ColumnDefinition definition = new ColumnDefinition();
+				columnDefinitions.add(definition);
+
+				final NodeList nodes = nodeList.item(i).getChildNodes();
+				for (int x = 0; x < nodes.getLength(); x++) {
+					setColumnDefinitionFields(definition, nodes.item(x));
+				}
+			}
+			return tableDefinition;
+		}
+		catch (final ParserConfigurationException pce) {
+			logger.error("ParserConfigurationException: ", pce);
+		}
+		catch (final SAXException se) {
+			logger.error("SAXException: ", se);
+		}
+		catch (final IOException ioe) {
+			logger.error("IOException: ", ioe);
+		}
+		return null;
 	}
 
 	private static void setColumnDefinitionFields(final ColumnDefinition definition, final Node currentNode) {

@@ -2,9 +2,7 @@ package com.morgan.design.paf.service;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
@@ -15,9 +13,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.morgan.design.args.CommandLinePafArgs;
 import com.morgan.design.paf.domain.ColumnDefinition;
 import com.morgan.design.paf.domain.PafChangeLog;
@@ -44,6 +43,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 	@Override
 	public void updatePafFiles(final CommandLinePafArgs pafArgs) {
 		constructDateSource(pafArgs);
+		// TODO GitHub issue: #3 - parse update files
 		this.pafJdbcOperations = new SimpleJdbcTemplate(this.dataSource);
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
@@ -73,7 +73,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 		this.logger.debug("Created {} table definitons", tableDefinitions.size());
 		this.logger.debug("Table Definitons created = {}", tableDefinitions);
 
-		final Map<TableDefinition, List<File>> tableToFilesMapping = Maps.newHashMap();
+		final BiMap<TableDefinition, List<File>> tableToFilesMapping = HashBiMap.create();
 
 		// Group Files and Definitions : read file(s) found, pass to parser
 		for (final File dataFile : dataFiles) {
@@ -84,10 +84,14 @@ public class PafParsingServiceImpl implements PafParsingService {
 			tableToFilesMapping.get(definition).add(dataFile);
 		}
 
+		this.logger.info("Begin table population, a total of {} files will be loaded", dataFiles.length);
 		for (final TableDefinition definition : tableToFilesMapping.keySet()) {
 			final int totalInsertCount = populateTable(definition, tableToFilesMapping.get(definition));
+			this.logger.info("Completed insert of table {}, ", definition.getName());
+			// TODO GitHub issue: #2 - output and save results
 			changeLog.setCount(definition, totalInsertCount);
 		}
+		this.logger.info("Finishes Table Population");
 	}
 
 	private int populateTable(final TableDefinition definition, final List<File> dataFiles) {
@@ -114,7 +118,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 					int currentCharIndex = 0;
 					for (final ColumnDefinition column : columns) {
 						if (confirmValidDataLine(currentTotalLineLength, line, column)) {
-							paramValues.add(createParam(line, currentCharIndex, column));
+							paramValues.add(line.substring(currentCharIndex, currentCharIndex + column.getLength()).trim());
 						}
 						currentCharIndex += column.getLength();
 					}
@@ -137,9 +141,8 @@ public class PafParsingServiceImpl implements PafParsingService {
 						}
 					}
 					catch (final Exception e) {
+						// TODO GitHub issue: #1 - add error reporting
 						this.logger.error("Unknown Exception: ", e);
-						this.logger.error("parameters: " + Arrays.toString(parameters.toArray()));
-						this.logger.error("batchUpdate: " + batchUpdate);
 						throw e;
 					}
 				}

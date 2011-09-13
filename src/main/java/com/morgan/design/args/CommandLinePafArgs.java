@@ -9,7 +9,7 @@ import com.morgan.design.paf.domain.Mode;
  */
 public class CommandLinePafArgs {
 
-	private static final String DEFINITIONS_DIR = "src/main/resources/definitions";
+	public static final String DEFINITIONS_DIR = "src/main/resources/definitions";
 
 	private CommandLinePafArgs() {
 		//
