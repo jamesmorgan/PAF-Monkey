@@ -13,16 +13,14 @@ public class FileLoaderUtilsUnitTest {
 
 	@Test
 	public void shouldLoadDefinitionFiles() {
-		final File[] retrieveFiles =
-				FileLoaderUtils.retrieveFiles("src\\test\\resources\\test_data\\definitions\\", FileLoaderUtils.getDefinitionFileFilter());
+		final File[] retrieveFiles = FileLoaderUtils.loadDefinitionFiles("src\\test\\resources\\test_data\\definitions\\");
 		assertThat(retrieveFiles.length, Is.is(1));
 		assertThat(retrieveFiles[0].toString(), Is.is("src\\test\\resources\\test_data\\definitions\\udprn.xml"));
 	}
 
 	@Test
 	public void shouldLoadDataFiles() {
-		final File[] retrieveFiles =
-				FileLoaderUtils.retrieveFiles("src\\test\\resources\\test_data\\data\\", FileLoaderUtils.getDataFileFilter());
+		final File[] retrieveFiles = FileLoaderUtils.loadDataFiles("src\\test\\resources\\test_data\\data\\");
 		assertThat(retrieveFiles.length, Is.is(4));
 		assertThat(retrieveFiles[0].toString(), Is.is("src\\test\\resources\\test_data\\data\\fpmainfl.c02"));
 		assertThat(retrieveFiles[1].toString(), Is.is("src\\test\\resources\\test_data\\data\\fpmainfl.c03"));

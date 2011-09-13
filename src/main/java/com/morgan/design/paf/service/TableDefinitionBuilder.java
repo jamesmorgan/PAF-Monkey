@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 import com.google.common.collect.Lists;
 import com.morgan.design.paf.domain.ColumnDefinition;
 import com.morgan.design.paf.domain.TableDefinition;
+import com.morgan.design.paf.util.FileLoaderUtils;
 
 /**
  * @author James Edward Morgan
@@ -27,10 +28,9 @@ public class TableDefinitionBuilder {
 
 	private static final Logger logger = LoggerFactory.getLogger(TableDefinitionBuilder.class);
 
-	public static final List<TableDefinition> parseDefinitionFiles(final File[] definitionFiles) {
-
+	public static final List<TableDefinition> parseDefinitionFiles(final String definitionDirectory) {
 		final List<TableDefinition> definitions = Lists.newArrayList();
-		for (final File fileDef : definitionFiles) {
+		for (final File fileDef : FileLoaderUtils.loadDefinitionFiles(definitionDirectory)) {
 			final TableDefinition tableDef = loadTableDefinition(fileDef);
 			if (null != tableDef) {
 				definitions.add(tableDef);

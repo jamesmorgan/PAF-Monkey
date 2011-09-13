@@ -18,11 +18,10 @@ public class SqlUtilsUnitTest {
 	@Test
 	public void shouldCorretlyCreateBatchUpdateStatement() {
 
-		final File[] retrieveFiles =
-				FileLoaderUtils.retrieveFiles("src\\main\\resources\\definitions\\", FileLoaderUtils.getDefinitionFileFilter());
+		final File[] retrieveFiles = FileLoaderUtils.loadDefinitionFiles("src\\main\\resources\\definitions\\");
 		assertThat(retrieveFiles.length, Is.is(10));
 
-		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles(retrieveFiles);
+		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles("src\\main\\resources\\definitions\\");
 		assertThat(
 				SqlUtils.createBatchUpdateStatement(definitionFiles.get(0)),
 				Is.is("INSERT INTO `paf_address` (`PostcodeOutwardCode`,`PostcodeInwardCode`,`AddressKey`,`LocalityKey`,`ThoroughfareKey`,`ThoroughfareDescriptorKey`,`DependentThoroughfareKey`,`DependentThoroughfareDescriptorKey`,`BuildingNumber`,`BuildingNameKey`,`SubBuildingNameKey`,`NumberOfHouseholds`,`OrganisationKey`,`PostcodeType`,`ConcatenationIndicator`,`DeliveryPointSuffix`,`SmallUserOrganisationIndicator`,`POBoxNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"));

@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.morgan.design.paf.domain.ColumnDefinition;
 import com.morgan.design.paf.domain.TableDefinition;
-import com.morgan.design.paf.service.TableDefinitionBuilder;
 import com.morgan.design.paf.util.FileLoaderUtils;
 
 public class TableDefinitionBuilderUnitTest {
@@ -32,12 +31,12 @@ public class TableDefinitionBuilderUnitTest {
 		tableDefinition.setName("udprn");
 		tableDefinition.setColumns(columnDefinitions);
 
-		final File[] retrieveFiles =
-				FileLoaderUtils.retrieveFiles("src\\test\\resources\\test_data\\definitions\\", FileLoaderUtils.getDefinitionFileFilter());
+		final File[] retrieveFiles = FileLoaderUtils.loadDefinitionFiles("src\\test\\resources\\test_data\\definitions\\");
 		assertThat(retrieveFiles.length, Is.is(1));
 		assertThat(retrieveFiles[0].toString(), Is.is("src\\test\\resources\\test_data\\definitions\\udprn.xml"));
 
-		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles(retrieveFiles);
+		final List<TableDefinition> definitionFiles =
+				TableDefinitionBuilder.parseDefinitionFiles("src\\test\\resources\\test_data\\definitions\\");
 		assertThat(definitionFiles.size(), Is.is(1));
 		assertThat(definitionFiles.get(0), Is.is(tableDefinition));
 	}
