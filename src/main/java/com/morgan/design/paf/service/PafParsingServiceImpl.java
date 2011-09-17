@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Predicate;
@@ -18,6 +19,7 @@ import com.morgan.design.args.CommandLinePafArgs;
 import com.morgan.design.paf.domain.DataCollector;
 import com.morgan.design.paf.domain.PafChangeLog;
 import com.morgan.design.paf.domain.TableDefinition;
+import com.morgan.design.paf.reports.ReportGenerator;
 import com.morgan.design.paf.util.FileLoaderUtils;
 import com.morgan.design.paf.util.IterableBufferedFileReader;
 
@@ -27,18 +29,16 @@ import com.morgan.design.paf.util.IterableBufferedFileReader;
 @Service
 public class PafParsingServiceImpl implements PafParsingService {
 
-	private static final int BATCH_SIZE = 1000;
-
 	private final Logger logger = LoggerFactory.getLogger(PafParsingService.class);
 
 	@Autowired
 	private PafRepository pafRepository;
 
-	@Override
-	public void updatePafFiles(final CommandLinePafArgs pafArgs) {
-		// TODO GitHub issue: #3 - parse update files
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
+	@Autowired
+	private ReportGenerator reportGenerator;
+
+	@Value("${paf.load.maxBatchSize}")
+	private final int maxBatchSize = 1000;
 
 	@Override
 	public void sourcePafFiles(final CommandLinePafArgs pafArgs) {
@@ -59,13 +59,15 @@ public class PafParsingServiceImpl implements PafParsingService {
 		for (final TableDefinition definition : tableToFilesMapping.keySet()) {
 			final int totalInsertCount = populateTable(pafArgs, definition, tableToFilesMapping.get(definition));
 			this.logger.info("Completed insert of table {}, {} entries created.", definition.getName(), totalInsertCount);
-			// TODO GitHub issue: #2 - output and save results
 			changeLog.setCount(definition, totalInsertCount);
 		}
 		changeLog.finish();
 		this.logger.info("Finished table population");
 
+		// TODO GitHub issue: #2 - output and save results
 		this.pafRepository.insertChangeLog(pafArgs, changeLog);
+		// TODO GitHub issue: #2 - output and save results
+		this.reportGenerator.generateChangeLogReport(changeLog);
 	}
 
 	private Map<TableDefinition, List<File>> groupFileAndDefinitions(final List<TableDefinition> tableDefinitions, final File[] dataFiles) {
@@ -110,7 +112,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 					batchCount++;
 					totalInsertCount++;
 
-					if (batchCount == BATCH_SIZE) {
+					if (reachedMaxBatchSize(batchCount)) {
 						this.logger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
 						this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
 						batchCount = 0;
@@ -121,7 +123,9 @@ public class PafParsingServiceImpl implements PafParsingService {
 				if (dataCollector.isFirstOrLastInSeries()) {
 					dataCollector.removeFooterRow();
 				}
-				this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
+				if (!dataCollector.getBatch().isEmpty()) {
+					this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
+				}
 			}
 			catch (final Exception e) {
 				// TODO GitHub issue: #1 - add error reporting
@@ -130,6 +134,10 @@ public class PafParsingServiceImpl implements PafParsingService {
 			}
 		}
 		return totalInsertCount;
+	}
+
+	private boolean reachedMaxBatchSize(final int batchCount) {
+		return batchCount == this.maxBatchSize;
 	}
 
 }

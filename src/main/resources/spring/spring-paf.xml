@@ -6,11 +6,13 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	">
-
+	
+	<import resource="classpath:/spring/spring-properties-paf.xml" />
+	
 	<bean name="baseDataSource" 
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 
-		p:driverClassName="com.mysql.jdbc.Driver"
+		p:driverClassName="${jdbc.driver}"
 		p:maxActive="5" 
 		p:maxWait="120000"
 		p:maxIdle="10" 
@@ -23,5 +25,6 @@
 	</bean>
 	
 	<context:component-scan base-package="com.morgan.design.paf.service" />
+	<context:component-scan base-package="com.morgan.design.paf.reports" />
 
 </beans>

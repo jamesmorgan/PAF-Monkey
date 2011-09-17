@@ -18,8 +18,8 @@ public class Main {
 	public static void main(final String[] args) {
 		final CommandLinePafArgs paf = CommandLinePafArgs.parseArgs(args);
 
-		logger.debug("Running PAF population tool, args: -mode=[{}] -username=[{}], -password=[{}], -host=[{}], -dir=[{}]", new Object[] {
-				paf.mode, paf.username, paf.password, paf.host, paf.directory });
+		logger.debug("Running PAF-Monkey, args: -mode=[{}] -username=[{}], -password=[{}], -host=[{}], -dir=[{}]", new Object[] { paf.mode,
+				paf.username, paf.password, paf.host, paf.directory });
 
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-paf.xml");
 		final PafParsingService service = context.getBean(PafParsingService.class);
@@ -27,9 +27,6 @@ public class Main {
 		switch (paf.mode) {
 			case SOURCE:
 				service.sourcePafFiles(paf);
-				break;
-			case UPDATE:
-				service.updatePafFiles(paf);
 				break;
 			default:
 				throw new UnsupportedOperationException("Unknown Paf'ing mode specified!");

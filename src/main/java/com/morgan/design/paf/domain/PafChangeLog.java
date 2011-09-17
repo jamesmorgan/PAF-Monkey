@@ -41,10 +41,6 @@ public class PafChangeLog {
 		return new PafChangeLog(Mode.SOURCE);
 	}
 
-	public static PafChangeLog createUpdateLog() {
-		return new PafChangeLog(Mode.UPDATE);
-	}
-
 	public final void finish() {
 		this.startDate = new Date();
 	}

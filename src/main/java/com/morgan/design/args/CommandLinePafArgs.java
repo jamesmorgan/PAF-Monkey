@@ -11,10 +11,6 @@ public class CommandLinePafArgs {
 
 	public static final String DEFINITIONS_DIR = "src/main/resources/definitions";
 
-	private CommandLinePafArgs() {
-		//
-	}
-
 	public static CommandLinePafArgs parseArgs(final String[] args) {
 		final CommandLinePafArgs paf = new CommandLinePafArgs();
 		final JCommander jCommander = new JCommander(paf, args);

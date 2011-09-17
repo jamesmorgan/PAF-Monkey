@@ -45,7 +45,8 @@ public class FileLoaderUtils {
 		return new FileFilter() {
 			@Override
 			public boolean accept(final File pathname) {
-				return pathname.getName().contains(".xml");
+				return pathname.getName()
+					.contains(".xml");
 			}
 		};
 	}
@@ -54,11 +55,14 @@ public class FileLoaderUtils {
 		return new FileFilter() {
 			@Override
 			public boolean accept(final File pathname) {
-				final int nameLength = pathname.getName().length();
+				final int nameLength = pathname.getName()
+					.length();
 				if (nameLength == 0 || nameLength < 4) {
 					return false;
 				}
-				return pathname.getName().substring(nameLength - 4, nameLength).matches("[.c]{1,2}[\\d]{2,2}");
+				return pathname.getName()
+					.substring(nameLength - 4, nameLength)
+					.matches("[.c]{1,2}[\\d]{2,2}");
 			}
 		};
 	}

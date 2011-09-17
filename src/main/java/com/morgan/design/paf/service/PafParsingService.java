@@ -10,11 +10,6 @@ public interface PafParsingService {
 	/**
 	 * @param pafArgs
 	 */
-	void updatePafFiles(CommandLinePafArgs pafArgs);
-
-	/**
-	 * @param pafArgs
-	 */
 	void sourcePafFiles(CommandLinePafArgs pafArgs);
 
 }

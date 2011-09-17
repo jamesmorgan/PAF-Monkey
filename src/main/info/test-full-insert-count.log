@@ -1,0 +1,13 @@
+SELECT COUNT(*) FROM `building_names`; -- 2351722
+SELECT COUNT(*) FROM `localities`; -- 41551
+SELECT COUNT(*) FROM `mailsort`; -- 11184
+SELECT COUNT(*) FROM `organisations`; -- 1416699
+SELECT COUNT(*) FROM `paf_address`; -- 28899851
+SELECT COUNT(*) FROM `building_names`; -- 2351722
+SELECT COUNT(*) FROM `sub_building_name`; -- 169432
+SELECT COUNT(*) FROM `thoroughfare`; -- 208123
+SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 210
+SELECT COUNT(*) FROM `udprn`; -- 28899851
+
+
+

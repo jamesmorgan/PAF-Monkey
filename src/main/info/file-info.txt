@@ -1,0 +1,39 @@
+File details
+
+The series of files on PAF Mainfile are described in more detail below:
+
+Localities file:
+This file contains one record for each Locality held on PAF. The file is held in ascending sequence by Locality
+Key. The Post Town ‘London’ is held as one Locality for each London postal district.
+
+Thoroughfares file:
+This file contains one record for each Thoroughfare on PAF. The file is held in ascending sequence by
+Thoroughfare Key.
+
+Thoroughfare Descriptors file:
+This file contains one record for each Thoroughfare Descriptor held on PAF. The file is held in ascending
+sequence by Thoroughfare Descriptor Key.
+
+Building Names file:
+This file contains one record for each Building Name held on PAF. The file is held in ascending sequence by
+Building Name Key.
+
+Sub Building Names file:
+This file contains one record for each Sub Building Name held on PAF. The file is held in ascending sequence by
+Sub Building Name Key.
+
+Organisations file:
+This file contains one record for each occurrence of an Organisation held on PAF. The file is held in ascending
+sequence of Postcode type followed by Organisation Key. The unique key to the Organisation File is the
+Organisation Key and Postcode Type fields.
+
+Address file:
+This file contains one record for each Delivery Point held on PAF. The file is held in ascending sequence by
+Postcode/Address Key/Organisation Key. The unique key to the Address File is the Address Key, Organisation Key
+and Postcode Type fields.
+
+Mailsort® file (optional):
+Mailsort data is used by customers who pre-sort their mail to achieve discounts via products like Royal Mail’s
+Mailsort, Presstream® and Walksort®. The file contains one record for each Postcode sector. The record
+contains the sector and its associated Mailsort Standard Selection Code. The file is held in ascending sequence
+by Postcode Sector. This is a reference file only, i.e. no updates are provided with Changes files.
