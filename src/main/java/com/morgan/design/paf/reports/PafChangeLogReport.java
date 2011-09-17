@@ -50,11 +50,9 @@ public class PafChangeLogReport implements Report {
 			document.close();
 		}
 		catch (final FileNotFoundException e) {
-			// TODO deal with errors
 			this.logger.error("FileNotFoundException : ", e);
 		}
 		catch (final DocumentException e) {
-			// TODO deal with errors
 			this.logger.error("DocumentException : ", e);
 		}
 	}

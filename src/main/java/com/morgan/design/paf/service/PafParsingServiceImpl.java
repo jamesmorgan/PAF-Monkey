@@ -134,7 +134,6 @@ public class PafParsingServiceImpl implements PafParsingService {
 				}
 			}
 			catch (final Exception e) {
-				// TODO GitHub issue: #1 - add error reporting
 				this.logger.error("Unknown Exception: ", e);
 				Throwables.propagate(e);
 			}
