@@ -76,4 +76,11 @@ public class DataCollector {
 	public boolean isFirstOrLastInSeries() {
 		return 1 == this.dataFilesSize || this.dataFileIndex == this.dataFilesSize - 1;
 	}
+
+	public boolean batchNotEmpty() {
+		if (null == this.parameters) {
+			return true;
+		}
+		return !this.parameters.isEmpty();
+	}
 }

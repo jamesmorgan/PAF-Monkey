@@ -29,7 +29,8 @@ import com.morgan.design.paf.util.IterableBufferedFileReader;
 @Service
 public class PafParsingServiceImpl implements PafParsingService {
 
-	private final Logger logger = LoggerFactory.getLogger(PafParsingService.class);
+	private final Logger logger = LoggerFactory.getLogger(PafParsingServiceImpl.class);
+	private final Logger verboseLogger = LoggerFactory.getLogger("com.morgan.design.verbose");
 
 	@Autowired
 	private PafRepository pafRepository;
@@ -113,7 +114,9 @@ public class PafParsingServiceImpl implements PafParsingService {
 					totalInsertCount++;
 
 					if (reachedMaxBatchSize(batchCount)) {
-						this.logger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
+						if (pafArgs.verbose) {
+							this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
+						}
 						this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
 						batchCount = 0;
 						dataCollector.clearBatch();
@@ -123,7 +126,10 @@ public class PafParsingServiceImpl implements PafParsingService {
 				if (dataCollector.isFirstOrLastInSeries()) {
 					dataCollector.removeFooterRow();
 				}
-				if (!dataCollector.getBatch().isEmpty()) {
+				if (dataCollector.batchNotEmpty()) {
+					if (pafArgs.verbose) {
+						this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
+					}
 					this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
 				}
 			}

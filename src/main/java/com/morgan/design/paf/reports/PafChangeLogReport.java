@@ -23,7 +23,7 @@ import com.morgan.design.paf.domain.PafChangeLog;
 
 public class PafChangeLogReport implements Report {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(PafChangeLogReport.class);
 
 	private PafChangeLogReport() {
 		//

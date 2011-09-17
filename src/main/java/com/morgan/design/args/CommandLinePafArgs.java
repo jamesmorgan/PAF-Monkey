@@ -39,4 +39,6 @@ public class CommandLinePafArgs {
 	@Parameter(names = { "-mode" }, description = "The mode to run in when reading paf files", required = false)
 	public Mode mode = Mode.SOURCE;
 
+	@Parameter(names = { "--verbose" }, description = "Enable verbose logging", required = false)
+	public Boolean verbose = Boolean.FALSE;
 }

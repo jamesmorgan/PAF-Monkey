@@ -28,6 +28,7 @@ e.g. -directory YourFullPathDir -host DbHost -username DbUser -password DbPasswo
 
 ### Optional Arguments
 
+* --verbose = Include this to enable more verbose logging and log every batch insert, default false
 * -schema = The database name to use when populating paf data, default 'paf'
 * -definitionDirectory = The directory where the definition files data are held, default 'src/main/resources/definitions'
 

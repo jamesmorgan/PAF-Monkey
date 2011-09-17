@@ -24,16 +24,24 @@
 		<appender-ref ref="STDOUT" />
 	</root>
 
-	<logger name="com.morgan.design">
-		<level value="DEBUG" />
-	</logger>
-	
+	<!-- Start : 3rd party loggers -->	
 	<logger name="ch.qos.logback">
 		<level value="WARN" />
 	</logger>
+	<!-- End : 3rd party loggers -->	
 
+	<!-- Start : Application loggers -->	
 	<logger name="org.springframework">
 		<level value="WARN" />
 	</logger>
+
+	<logger name="com.morgan.design.verbose" >
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="com.morgan.design">
+		<level value="DEBUG" />
+	</logger>
+	<!-- End : Application loggers -->	
 	
 </configuration>
