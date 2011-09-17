@@ -36,6 +36,13 @@ e.g. -directory YourFullPathDir -host DbHost -username DbUser -password DbPasswo
 
 * -mode = Used to either SOURCE or UPDATE the paf file data, default 'SOURCE'. This is not yet fully supported and will be made optional at a later date.
 
+### Logging ##
+
+Two logs will be produced when you run this application. 
+
+* paf.log - logs application output, see --verbose mode
+* paf_error_log - logs all errors when happen
+
 ---------------------------------------
 
 ## Notices 
