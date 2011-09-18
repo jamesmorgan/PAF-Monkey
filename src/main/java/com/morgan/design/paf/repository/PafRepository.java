@@ -1,4 +1,4 @@
-package com.morgan.design.paf.service;
+package com.morgan.design.paf.repository;
 
 import java.util.List;
 

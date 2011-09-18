@@ -62,8 +62,16 @@ public class DataCollector {
 		return column.isNotFiller() && line.length() == currentTotalLineLength;
 	}
 
-	private String extractColumnData(final String line, final int currentCharIndex, final ColumnDefinition column) {
-		return line.substring(currentCharIndex, currentCharIndex + column.getLength()).trim();
+	private Object extractColumnData(final String line, final int currentCharIndex, final ColumnDefinition column) {
+		final String paramValue = line.substring(currentCharIndex, currentCharIndex + column.getLength());
+		try {
+			return column.isAlphaNumeric()
+					? (String) paramValue.trim()
+					: Integer.valueOf(paramValue);
+		}
+		catch (final NumberFormatException e) {
+			return null;
+		}
 	}
 
 	public boolean notRemovedHeaderRow() {

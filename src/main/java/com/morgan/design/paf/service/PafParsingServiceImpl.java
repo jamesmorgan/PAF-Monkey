@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.morgan.design.paf.domain.DataCollector;
 import com.morgan.design.paf.domain.PafChangeLog;
 import com.morgan.design.paf.domain.TableDefinition;
 import com.morgan.design.paf.reports.ReportGenerator;
+import com.morgan.design.paf.repository.PafRepository;
 import com.morgan.design.paf.util.FileLoaderUtils;
 import com.morgan.design.paf.util.IterableBufferedFileReader;
 
@@ -32,8 +35,8 @@ public class PafParsingServiceImpl implements PafParsingService {
 	private final Logger logger = LoggerFactory.getLogger(PafParsingServiceImpl.class);
 	private final Logger verboseLogger = LoggerFactory.getLogger("com.morgan.design.verbose");
 
-	@Autowired
-	private PafRepository pafRepository;
+	@Resource(name = "persistenceService")
+	private PafRepository persistenceService;
 
 	@Autowired
 	private ReportGenerator reportGenerator;
@@ -65,9 +68,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 		changeLog.finish();
 		this.logger.info("Finished table population");
 
-		// TODO GitHub issue: #2 - output and save results
-		this.pafRepository.insertChangeLog(pafArgs, changeLog);
-		// TODO GitHub issue: #2 - output and save results
+		this.persistenceService.insertChangeLog(pafArgs, changeLog);
 		this.reportGenerator.generateChangeLogReport(changeLog);
 	}
 
@@ -117,7 +118,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 						if (pafArgs.verbose) {
 							this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
 						}
-						this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
+						this.persistenceService.saveBatch(pafArgs, definition, dataCollector.getBatch());
 						batchCount = 0;
 						dataCollector.clearBatch();
 					}
@@ -130,7 +131,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 					if (pafArgs.verbose) {
 						this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
 					}
-					this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
+					this.persistenceService.saveBatch(pafArgs, definition, dataCollector.getBatch());
 				}
 			}
 			catch (final Exception e) {

@@ -7,6 +7,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+
 /**
  * @author James Edward Morgan
  */
@@ -34,6 +37,15 @@ public class TableDefinition {
 
 	public List<ColumnDefinition> getColumns() {
 		return this.columns;
+	}
+
+	public Iterable<ColumnDefinition> getAllNoFillerColumns() {
+		return Iterables.filter(this.columns, new Predicate<ColumnDefinition>() {
+			@Override
+			public boolean apply(final ColumnDefinition input) {
+				return input.isNotFiller();
+			}
+		});
 	}
 
 	public ColumnDefinition getColumn(final int index) {

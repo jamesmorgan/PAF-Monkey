@@ -1,4 +1,4 @@
-package com.morgan.design.paf.service;
+package com.morgan.design.paf.repository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,8 +18,8 @@ import com.morgan.design.paf.domain.PafChangeLog;
 import com.morgan.design.paf.domain.TableDefinition;
 import com.morgan.design.paf.util.SqlUtils;
 
-@Service
-public class PafRepositoryImpl implements PafRepository {
+@Service("jdbcPafRepository")
+public class JdbcPafRepositoryImpl implements PafRepository {
 
 	@Autowired
 	private BasicDataSource dataSource;
@@ -68,7 +68,7 @@ public class PafRepositoryImpl implements PafRepository {
 	private void constructDateSource(final CommandLinePafArgs pafArgs) {
 		this.dataSource.setUsername(pafArgs.username);
 		this.dataSource.setPassword(pafArgs.password);
-		this.dataSource.setUrl("jdbc:mysql://" + pafArgs.host + ":3306/" + pafArgs.schema
+		this.dataSource.setUrl("jdbc:mysql://" + pafArgs.host + ":" + pafArgs.getPort() + "/" + pafArgs.schema
 			+ "?autoReconnect=true&amp;rewriteBatchedStatements=false&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull");
 	}
 }

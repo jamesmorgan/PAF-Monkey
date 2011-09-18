@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.morgan.design.args.CommandLinePafArgs;
+import com.morgan.design.paf.repository.PafRepository;
 
 public class PafServiceImpUnitTest {
 
@@ -30,7 +31,7 @@ public class PafServiceImpUnitTest {
 
 		this.context.checking(new Expectations() {
 			{
-				one(pafRepository).saveBatch(constructTestArgs(), null, null);
+				one(PafServiceImpUnitTest.this.pafRepository).saveBatch(constructTestArgs(), null, null);
 			}
 		});
 
@@ -41,10 +42,10 @@ public class PafServiceImpUnitTest {
 		final CommandLinePafArgs args = new CommandLinePafArgs();
 		args.definitionDirectory = "src\\main\\resources\\definitions\\";
 		args.directory = "src\\test\\resources\\test_data\\data\\";
-		args.host = "127.0.0.1";
-		args.password = "password";
-		args.schema = "paf";
-		args.username = "paf_user";
+		// args.host = "127.0.0.1";
+		// args.password = "password";
+		// args.schema = "paf";
+		// args.username = "paf_user";
 		return args;
 	}
 

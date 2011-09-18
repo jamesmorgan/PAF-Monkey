@@ -18,8 +18,10 @@ public class Main {
 	public static void main(final String[] args) {
 		final CommandLinePafArgs paf = CommandLinePafArgs.parseArgs(args);
 
-		logger.debug("Running PAF-Monkey, args: -mode=[{}] -username=[{}], -password=[{}], -host=[{}], -dir=[{}]", new Object[] { paf.mode,
-				paf.username, paf.password, paf.host, paf.directory });
+		logger.debug("Running PAF-Monkey, args: -mode=[{}], -db=[{}], -username=[{}], -host=[{}], -dir=[{}]", new Object[] { paf.mode,
+				paf.db, paf.username, paf.host, paf.directory });
+
+		// -password morganje02 -directory L:\PAF_TEST_FILES\FILES -host 127.0.0.1 -username root
 
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-paf.xml");
 		final PafParsingService service = context.getBean(PafParsingService.class);

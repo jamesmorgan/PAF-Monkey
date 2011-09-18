@@ -67,7 +67,7 @@ public class PafChangeLogReport implements Report {
 		final Paragraph subPara = new Paragraph("Run Time", Styles.subFont);
 		final Section subCatPart = catPart.addSection(subPara);
 		subCatPart.add(new Paragraph("Start : " + changeLog.getStartDate()));
-		subCatPart.add(new Paragraph("End : " + changeLog.getStartDate()));
+		subCatPart.add(new Paragraph("End : " + changeLog.getEndDate()));
 
 		addEmptyLine(subPara, 2);
 
@@ -116,7 +116,7 @@ public class PafChangeLogReport implements Report {
 		name.setPadding(3f);
 		table.addCell(name);
 
-		final PdfPCell valueCell = new PdfPCell(new Phrase(value));
+		final PdfPCell valueCell = new PdfPCell(new Phrase(Integer.toString(value)));
 		valueCell.setPadding(3f);
 		table.addCell(valueCell);
 	}
