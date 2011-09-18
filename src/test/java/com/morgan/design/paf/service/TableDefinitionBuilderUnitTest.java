@@ -17,6 +17,20 @@ public class TableDefinitionBuilderUnitTest {
 
 	@Test
 	public void shouldBuildDefinitionsCorrectly() {
+
+		final File[] retrieveFiles = FileLoaderUtils.loadDefinitionFiles("src\\main\\resources\\definitions\\");
+		assertThat(retrieveFiles.length, Is.is(10));
+		assertThat(retrieveFiles[0].toString(), Is.is("src\\main\\resources\\definitions\\address.xml"));
+		assertThat(retrieveFiles[1].toString(), Is.is("src\\main\\resources\\definitions\\building_names.xml"));
+		assertThat(retrieveFiles[2].toString(), Is.is("src\\main\\resources\\definitions\\localities.xml"));
+		assertThat(retrieveFiles[3].toString(), Is.is("src\\main\\resources\\definitions\\mailsort.xml"));
+		assertThat(retrieveFiles[4].toString(), Is.is("src\\main\\resources\\definitions\\organisations.xml"));
+		assertThat(retrieveFiles[5].toString(), Is.is("src\\main\\resources\\definitions\\sub_building_names.xml"));
+		assertThat(retrieveFiles[6].toString(), Is.is("src\\main\\resources\\definitions\\thoroughfare.xml"));
+		assertThat(retrieveFiles[7].toString(), Is.is("src\\main\\resources\\definitions\\thoroughfare_descriptor.xml"));
+		assertThat(retrieveFiles[8].toString(), Is.is("src\\main\\resources\\definitions\\udprn.xml"));
+		assertThat(retrieveFiles[9].toString(), Is.is("src\\main\\resources\\definitions\\welsh_address.xml"));
+
 		final List<ColumnDefinition> columnDefinitions = Lists.newArrayList();
 		columnDefinitions.add(ColumnDefinition.create("Postcode", 7, "A"));
 		columnDefinitions.add(ColumnDefinition.create("AddressKey", 8, "N"));
@@ -31,13 +45,9 @@ public class TableDefinitionBuilderUnitTest {
 		tableDefinition.setName("udprn");
 		tableDefinition.setColumns(columnDefinitions);
 
-		final File[] retrieveFiles = FileLoaderUtils.loadDefinitionFiles("src\\test\\resources\\test_data\\definitions\\");
-		assertThat(retrieveFiles.length, Is.is(1));
-		assertThat(retrieveFiles[0].toString(), Is.is("src\\test\\resources\\test_data\\definitions\\udprn.xml"));
+		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles("src\\main\\resources\\definitions\\");
+		assertThat(definitionFiles.size(), Is.is(10));
+		assertThat(definitionFiles.get(8), Is.is(tableDefinition));
 
-		final List<TableDefinition> definitionFiles =
-				TableDefinitionBuilder.parseDefinitionFiles("src\\test\\resources\\test_data\\definitions\\");
-		assertThat(definitionFiles.size(), Is.is(1));
-		assertThat(definitionFiles.get(0), Is.is(tableDefinition));
 	}
 }

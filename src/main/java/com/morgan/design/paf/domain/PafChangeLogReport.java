@@ -1,9 +1,11 @@
-package com.morgan.design.paf.reports;
+package com.morgan.design.paf.domain;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,30 +21,21 @@ import com.lowagie.text.Section;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-import com.morgan.design.paf.domain.PafChangeLog;
+import com.morgan.design.paf.reports.Styles;
 
+@Resource
 public class PafChangeLogReport implements Report {
 
 	private final Logger logger = LoggerFactory.getLogger(PafChangeLogReport.class);
 
-	private PafChangeLogReport() {
-		//
-	}
-
-	private static PafChangeLogReport INSTANCE = new PafChangeLogReport();
-
-	public static PafChangeLogReport getInstance() {
-		if (null == INSTANCE) {
-			INSTANCE = new PafChangeLogReport();
-		}
-		return INSTANCE;
-	}
+	private final String reportName = "PafChangeLogReport";
+	private final String reportNameDateFormat = "EEE-d-MMM";
 
 	@Override
 	public void generate(final PafChangeLog log) {
 		final Document document = new Document();
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream(generateTitle(log)));
+			PdfWriter.getInstance(document, new FileOutputStream(generateTitle()));
 			addDocumentMetaData(document);
 			document.open();
 			addChangeLogTable(log, document);
@@ -134,9 +127,9 @@ public class PafChangeLogReport implements Report {
 		}
 	}
 
-	private String generateTitle(final PafChangeLog log) {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE-d-MMM");
+	public final String generateTitle() {
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(this.reportNameDateFormat);
 		final String date = dateFormat.format(new Date());
-		return "PafChangeLogReport - " + date + ".pdf";
+		return this.reportName + "-" + date + ".pdf";
 	}
 }

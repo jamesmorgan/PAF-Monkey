@@ -36,7 +36,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 	private final Logger verboseLogger = LoggerFactory.getLogger("com.morgan.design.verbose");
 
 	@Resource(name = "persistenceService")
-	private PafRepository persistenceService;
+	private PafRepository pafRepository;
 
 	@Autowired
 	private ReportGenerator reportGenerator;
@@ -68,7 +68,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 		changeLog.finish();
 		this.logger.info("Finished table population");
 
-		this.persistenceService.insertChangeLog(pafArgs, changeLog);
+		this.pafRepository.insertChangeLog(pafArgs, changeLog);
 		this.reportGenerator.generateChangeLogReport(changeLog);
 	}
 
@@ -118,7 +118,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 						if (pafArgs.verbose) {
 							this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
 						}
-						this.persistenceService.saveBatch(pafArgs, definition, dataCollector.getBatch());
+						this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
 						batchCount = 0;
 						dataCollector.clearBatch();
 					}
@@ -131,7 +131,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 					if (pafArgs.verbose) {
 						this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
 					}
-					this.persistenceService.saveBatch(pafArgs, definition, dataCollector.getBatch());
+					this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
 				}
 			}
 			catch (final Exception e) {

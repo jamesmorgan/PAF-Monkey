@@ -31,7 +31,7 @@ public class MongoPafRepositoryImpl implements PafRepository {
 	@Override
 	public void insertChangeLog(final CommandLinePafArgs pafArgs, final PafChangeLog changeLog) {
 		try {
-			final Mongo m = new Mongo(pafArgs.host, pafArgs.getPort());
+			final Mongo m = new Mongo(pafArgs.host, pafArgs.port);
 			final DB db = m.getDB(pafArgs.schema);
 			db.authenticate(pafArgs.username, pafArgs.password.toCharArray());
 			final DBCollection coll = db.getCollection("paf_address");
@@ -70,7 +70,7 @@ public class MongoPafRepositoryImpl implements PafRepository {
 	@Override
 	public void saveBatch(final CommandLinePafArgs pafArgs, final TableDefinition definition, final List<Object[]> batch) {
 		try {
-			final Mongo m = new Mongo(pafArgs.host, pafArgs.getPort());
+			final Mongo m = new Mongo(pafArgs.host, pafArgs.port);
 			final DB db = m.getDB(pafArgs.schema);
 			db.authenticate(pafArgs.username, pafArgs.password.toCharArray());
 			final DBCollection coll = db.getCollection(definition.getName());

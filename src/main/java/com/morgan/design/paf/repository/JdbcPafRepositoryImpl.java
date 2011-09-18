@@ -68,7 +68,7 @@ public class JdbcPafRepositoryImpl implements PafRepository {
 	private void constructDateSource(final CommandLinePafArgs pafArgs) {
 		this.dataSource.setUsername(pafArgs.username);
 		this.dataSource.setPassword(pafArgs.password);
-		this.dataSource.setUrl("jdbc:mysql://" + pafArgs.host + ":" + pafArgs.getPort() + "/" + pafArgs.schema
+		this.dataSource.setUrl("jdbc:mysql://" + pafArgs.host + ":" + pafArgs.port + "/" + pafArgs.schema
 			+ "?autoReconnect=true&amp;rewriteBatchedStatements=false&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull");
 	}
 }

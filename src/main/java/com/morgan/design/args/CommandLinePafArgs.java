@@ -2,22 +2,31 @@ package com.morgan.design.args;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
 import com.morgan.design.paf.domain.Mode;
 
 /**
  * @author James Edward Morgan
  */
-@Parameters(commandDescription = "MySql Configs and defaults")
-public class CommandLinePafArgs implements DbConfig {
+public class CommandLinePafArgs {
+
+	private static final int MONGO_DEFAULT_PORT = 27017;
+	private static final int MYSQL_DEFAULT_PORT = 3306;
+	private static final String MYSQL = "mysql";
+	private static final String MONGO = "mongo";
 
 	public static final String DEFINITIONS_DIR = "src/main/resources/definitions";
 
 	public static CommandLinePafArgs parseArgs(final String[] args) {
 		final CommandLinePafArgs paf = new CommandLinePafArgs();
-		final JCommander jCommander = new JCommander(paf, args);
+		final JCommander jCommander = new JCommander(paf);
 		jCommander.addConverterFactory(new ConverterFactory());
+		jCommander.parse(args);
 
+		if (0 == paf.port) {
+			paf.port = MYSQL.equalsIgnoreCase(paf.db)
+					? MYSQL_DEFAULT_PORT
+					: MONGO_DEFAULT_PORT;
+		}
 		return paf;
 	}
 
@@ -49,19 +58,9 @@ public class CommandLinePafArgs implements DbConfig {
 	public String password;
 
 	@Parameter(names = { "-db" }, description = "Type of persistence, mongo or mysql", required = false)
-	public String db = "mysql";
+	public String db = MYSQL;
 
-	@Override
-	public int getPort() {
-		if (0 != this.port) {
-			return this.port;
-		}
-		return "mysql".equalsIgnoreCase(this.db)
-				? 3306
-				: 27017;
-	}
-
-	public boolean mongoEnabled() {
-		return "mongo".equalsIgnoreCase(this.db);
+	public final boolean mongoEnabled() {
+		return MONGO.equalsIgnoreCase(this.db);
 	}
 }
