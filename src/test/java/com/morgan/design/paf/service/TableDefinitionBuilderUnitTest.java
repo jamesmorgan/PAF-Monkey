@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 import com.morgan.design.paf.domain.ColumnDefinition;
 import com.morgan.design.paf.domain.TableDefinition;
 import com.morgan.design.paf.util.FileLoaderUtils;
+import com.morgan.design.paf.util.TableDefinitionBuilder;
 
 public class TableDefinitionBuilderUnitTest {
 

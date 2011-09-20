@@ -10,15 +10,16 @@ import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.morgan.design.args.CommandLinePafArgs;
+import com.morgan.design.paf.db.MongoConnection;
 import com.morgan.design.paf.domain.ColumnDefinition;
 import com.morgan.design.paf.domain.PafChangeLog;
 import com.morgan.design.paf.domain.TableDefinition;
@@ -28,12 +29,15 @@ public class MongoPafRepositoryImpl implements PafRepository {
 
 	private final Logger logger = LoggerFactory.getLogger(MongoPafRepositoryImpl.class);
 
+	@Autowired
+	private MongoConnection mongoConnection;
+
 	@Override
 	public void insertChangeLog(final CommandLinePafArgs pafArgs, final PafChangeLog changeLog) {
 		try {
-			final Mongo m = new Mongo(pafArgs.host, pafArgs.port);
-			final DB db = m.getDB(pafArgs.schema);
-			db.authenticate(pafArgs.username, pafArgs.password.toCharArray());
+
+			this.mongoConnection.connect(pafArgs.username, pafArgs.password, pafArgs.host, pafArgs.db, pafArgs.port);
+			final DB db = this.mongoConnection.getDatabase();
 			final DBCollection coll = db.getCollection("paf_address");
 
 			final TreeMap<String, Integer> newTreeMap = Maps.newTreeMap();
@@ -65,19 +69,22 @@ public class MongoPafRepositoryImpl implements PafRepository {
 		catch (final IllegalAccessException e) {
 			this.logger.error("IllegalAccessException : ", e);
 		}
+		catch (final Exception e) {
+			this.logger.error("Exception : ", e);
+		}
 	}
 
 	@Override
 	public void saveBatch(final CommandLinePafArgs pafArgs, final TableDefinition definition, final List<Object[]> batch) {
 		try {
-			final Mongo m = new Mongo(pafArgs.host, pafArgs.port);
-			final DB db = m.getDB(pafArgs.schema);
-			db.authenticate(pafArgs.username, pafArgs.password.toCharArray());
+			this.mongoConnection.connect(pafArgs.username, pafArgs.password, pafArgs.host, pafArgs.db, pafArgs.port);
+			final DB db = this.mongoConnection.getDatabase();
 			final DBCollection coll = db.getCollection(definition.getName());
 
 			for (final Object[] objects : batch) {
 				final BasicDBObject doc = new BasicDBObject();
-				final Iterator<ColumnDefinition> allNoneFillerColumns = definition.getAllNoFillerColumns().iterator();
+				final Iterator<ColumnDefinition> allNoneFillerColumns = definition.getAllNoFillerColumns()
+					.iterator();
 				int i = 0;
 				while (allNoneFillerColumns.hasNext()) {
 					final ColumnDefinition def = allNoneFillerColumns.next();
@@ -94,6 +101,9 @@ public class MongoPafRepositoryImpl implements PafRepository {
 		}
 		catch (final IllegalArgumentException e) {
 			this.logger.error("IllegalArgumentException : ", e);
+		}
+		catch (final Exception e) {
+			this.logger.error("Exception : ", e);
 		}
 	}
 }

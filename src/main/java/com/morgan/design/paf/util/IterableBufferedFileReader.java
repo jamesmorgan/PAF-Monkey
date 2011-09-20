@@ -13,7 +13,7 @@ import com.google.common.io.Files;
  */
 public class IterableBufferedFileReader implements Iterable<String> {
 
-	private final BufferedReader reader;
+	protected final BufferedReader reader;
 
 	public IterableBufferedFileReader(final String filePath) throws Exception {
 		this.reader = Files.newReader(new File(filePath), Charsets.UTF_8);

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.morgan.design.paf.domain.PafChangeLog;
-import com.morgan.design.paf.domain.PafChangeLogReport;
 
 public class PafChangeLogReportUnitTest {
 

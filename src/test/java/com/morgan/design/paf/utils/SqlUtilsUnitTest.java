@@ -9,9 +9,9 @@ import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import com.morgan.design.paf.domain.TableDefinition;
-import com.morgan.design.paf.service.TableDefinitionBuilder;
 import com.morgan.design.paf.util.FileLoaderUtils;
 import com.morgan.design.paf.util.SqlUtils;
+import com.morgan.design.paf.util.TableDefinitionBuilder;
 
 public class SqlUtilsUnitTest {
 

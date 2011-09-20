@@ -11,6 +11,7 @@ public class CommandLinePafArgs {
 
 	private static final int MONGO_DEFAULT_PORT = 27017;
 	private static final int MYSQL_DEFAULT_PORT = 3306;
+
 	private static final String MYSQL = "mysql";
 	private static final String MONGO = "mongo";
 

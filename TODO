@@ -1,8 +1,0 @@
-* Use Alpha Numeric Flag
-* Add additional flag of nullable filed and determine correct insert value when being used
-* Improve error catching, flag bad inserts and log to separate file.
-* Output results in some format, e.g. html, text file e.g. num of inserts, table sizes, changes
-* Ability to parse update files
-* Improve parsing and table definition builder code
-* Make repo so easy to test service. 
-* Make each insert null safe

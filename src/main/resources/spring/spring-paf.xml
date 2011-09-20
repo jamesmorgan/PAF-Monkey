@@ -28,11 +28,16 @@
 		p:logAbandoned="true">
 	</bean>
 
+	<bean
+		id="mongoConnection"
+		class="com.morgan.design.paf.db.MongoConnection"
+		factory-method="getInstance">
+	</bean>
+
 	<context:component-scan
-		base-package="com.morgan.design.paf.service" />
+		base-package="com.morgan.design.paf.reports" />
 	<context:component-scan
 		base-package="com.morgan.design.paf.repository" />
 	<context:component-scan
-		base-package="com.morgan.design.paf.reports" />
-
+		base-package="com.morgan.design.paf.service" />
 </beans>

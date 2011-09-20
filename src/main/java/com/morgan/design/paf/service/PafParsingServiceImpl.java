@@ -21,10 +21,10 @@ import com.morgan.design.args.CommandLinePafArgs;
 import com.morgan.design.paf.domain.DataCollector;
 import com.morgan.design.paf.domain.PafChangeLog;
 import com.morgan.design.paf.domain.TableDefinition;
-import com.morgan.design.paf.reports.ReportGenerator;
 import com.morgan.design.paf.repository.PafRepository;
 import com.morgan.design.paf.util.FileLoaderUtils;
 import com.morgan.design.paf.util.IterableBufferedFileReader;
+import com.morgan.design.paf.util.TableDefinitionBuilder;
 
 /**
  * @author James Edward Morgan
