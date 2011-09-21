@@ -37,3 +37,7 @@ Mailsort data is used by customers who pre-sort their mail to achieve discounts 
 Mailsort, Presstream® and Walksort®. The file contains one record for each Postcode sector. The record
 contains the sector and its associated Mailsort Standard Selection Code. The file is held in ascending sequence
 by Postcode Sector. This is a reference file only, i.e. no updates are provided with Changes files.
+
+Welsh Main File:
+The Welsh address file contains identical data to the Standard file for those addresses within the Welsh
+Principality for which no Alternative address exists. Insert ignore is used when loading the Welsh main file.

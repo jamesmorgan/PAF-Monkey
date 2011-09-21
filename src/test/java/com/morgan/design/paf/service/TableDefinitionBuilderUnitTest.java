@@ -32,7 +32,7 @@ public class TableDefinitionBuilderUnitTest {
 		assertThat(retrieveFiles[8].toString(), Is.is("src\\main\\resources\\definitions\\udprn.xml"));
 		assertThat(retrieveFiles[9].toString(), Is.is("src\\main\\resources\\definitions\\welsh_address.xml"));
 
-		final List<ColumnDefinition> columnDefinitions = Lists.newArrayList();
+		final List<ColumnDefinition> columnDefinitions = Lists.newLinkedList();
 		columnDefinitions.add(ColumnDefinition.create("Postcode", 7, "A"));
 		columnDefinitions.add(ColumnDefinition.create("AddressKey", 8, "N"));
 		columnDefinitions.add(ColumnDefinition.create("UdprnKey", 8, "N"));
@@ -41,14 +41,19 @@ public class TableDefinitionBuilderUnitTest {
 		columnDefinitions.add(ColumnDefinition.create("DeliveryPointSuffix", 2, "A"));
 		columnDefinitions.add(ColumnDefinition.create("SuOrganisationIndicator", 1, "A"));
 
-		final TableDefinition tableDefinition = new TableDefinition();
-		tableDefinition.setFileName("udprnful");
-		tableDefinition.setName("udprn");
-		tableDefinition.setColumns(columnDefinitions);
+		final TableDefinition udprnTableDef = new TableDefinition();
+		udprnTableDef.setFileName("udprnful");
+		udprnTableDef.setName("udprn");
+		udprnTableDef.setColumns(columnDefinitions);
 
 		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles("src\\main\\resources\\definitions\\");
 		assertThat(definitionFiles.size(), Is.is(10));
-		assertThat(definitionFiles.get(8), Is.is(tableDefinition));
+		assertThat(definitionFiles.get(8), Is.is(udprnTableDef));
+		
+		assertThat(definitionFiles.get(9).getName(), Is.is("paf_address"));
+		assertThat(definitionFiles.get(9).getFileName(), Is.is("wfmainfl"));
+		assertThat(definitionFiles.get(9).getIgnoreDuplicates(), Is.is(true));
+		
 
 	}
 }

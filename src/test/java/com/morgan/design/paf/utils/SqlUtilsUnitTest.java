@@ -47,6 +47,6 @@ public class SqlUtilsUnitTest {
 				Is.is("INSERT INTO `udprn` (`Postcode`,`AddressKey`,`UdprnKey`,`OrganisationKey`,`PostcodeType`,`DeliveryPointSuffix`,`SuOrganisationIndicator`) VALUES (?,?,?,?,?,?,?)"));
 		assertThat(
 				SqlUtils.createBatchUpdateStatement(definitionFiles.get(9)),
-				Is.is("INSERT INTO `paf_address` (`PostcodeOutwardCode`,`PostcodeInwardCode`,`AddressKey`,`LocalityKey`,`ThoroughfareKey`,`ThoroughfareDescriptorKey`,`DependentThoroughfareKey`,`DependentThoroughfareDescriptorKey`,`BuildingNumber`,`BuildingNameKey`,`SubBuildingNameKey`,`NumberOfHouseholds`,`OrganisationKey`,`PostcodeType`,`ConcatenationIndicator`,`DeliveryPointSuffix`,`SmallUserOrganisationIndicator`,`POBoxNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"));
+				Is.is("INSERT IGNORE INTO `paf_address` (`PostcodeOutwardCode`,`PostcodeInwardCode`,`AddressKey`,`LocalityKey`,`ThoroughfareKey`,`ThoroughfareDescriptorKey`,`DependentThoroughfareKey`,`DependentThoroughfareDescriptorKey`,`BuildingNumber`,`BuildingNameKey`,`SubBuildingNameKey`,`NumberOfHouseholds`,`OrganisationKey`,`PostcodeType`,`ConcatenationIndicator`,`DeliveryPointSuffix`,`SmallUserOrganisationIndicator`,`POBoxNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"));
 	}
 }

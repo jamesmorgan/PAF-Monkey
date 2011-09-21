@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `organisations`;
 CREATE TABLE `organisations` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `OrganisationKey` int(10) unsigned NOT NULL DEFAULT '0',

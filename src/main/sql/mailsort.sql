@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `mailsort`;
 CREATE TABLE `mailsort` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `PostcodeOutwardCode` varchar(4) NOT NULL DEFAULT '',

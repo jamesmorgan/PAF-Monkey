@@ -29,11 +29,11 @@ public class FileLoaderUtilsUnitTest {
 
 	@Test
 	public void shouldLoadDataFiles() {
-		final File[] retrieveFiles = FileLoaderUtils.loadDataFiles("src\\test\\resources\\test_data\\data\\");
+		final File[] retrieveFiles = FileLoaderUtils.loadDataFiles("src\\test\\resources\\test_data\\data\\parsing\\address");
 		assertThat(retrieveFiles.length, Is.is(4));
-		assertThat(retrieveFiles[0].toString(), Is.is("src\\test\\resources\\test_data\\data\\fpmainfl.c02"));
-		assertThat(retrieveFiles[1].toString(), Is.is("src\\test\\resources\\test_data\\data\\fpmainfl.c03"));
-		assertThat(retrieveFiles[2].toString(), Is.is("src\\test\\resources\\test_data\\data\\fpmainfl.c04"));
-		assertThat(retrieveFiles[3].toString(), Is.is("src\\test\\resources\\test_data\\data\\fpmainfl.c06"));
+		assertThat(retrieveFiles[0].toString(), Is.is("src\\test\\resources\\test_data\\data\\parsing\\address\\fpmainfl.c02"));
+		assertThat(retrieveFiles[1].toString(), Is.is("src\\test\\resources\\test_data\\data\\parsing\\address\\fpmainfl.c03"));
+		assertThat(retrieveFiles[2].toString(), Is.is("src\\test\\resources\\test_data\\data\\parsing\\address\\fpmainfl.c04"));
+		assertThat(retrieveFiles[3].toString(), Is.is("src\\test\\resources\\test_data\\data\\parsing\\address\\fpmainfl.c06"));
 	}
 }

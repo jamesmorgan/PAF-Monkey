@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `localities`;
 CREATE TABLE `localities` (
   `LocalityKey` int(10) unsigned NOT NULL DEFAULT '0',
   `PostTown` varchar(30) NOT NULL DEFAULT '',

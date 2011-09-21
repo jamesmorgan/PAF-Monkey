@@ -33,6 +33,10 @@ public class SqlUtils {
 				columnValues += ",";
 			}
 		}
+
+		if (definition.getIgnoreDuplicates()) {
+			return String.format("INSERT IGNORE INTO `%s` (%s) VALUES (%s)", definition.getName(), columnDefs, columnValues);
+		}
 		return String.format("INSERT INTO `%s` (%s) VALUES (%s)", definition.getName(), columnDefs, columnValues);
 	}
 }

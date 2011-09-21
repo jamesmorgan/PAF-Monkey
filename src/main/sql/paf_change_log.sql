@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `paf_change_log`;
 CREATE TABLE `paf_change_log` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `StartDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

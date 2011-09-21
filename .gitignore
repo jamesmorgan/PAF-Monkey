@@ -7,3 +7,5 @@ bin/
 target/
 .springBeans
 nohup.out
+*.pdf
+*Report*.pdf

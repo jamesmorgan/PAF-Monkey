@@ -25,5 +25,8 @@ public class PafChangeLogReportUnitTest {
 		log.finish();
 		this.logReport.generate(log);
 		assertTrue(new File(this.logReport.generateTitle()).exists());
+
+		// / delete it
+		new File(this.logReport.generateTitle()).delete();
 	}
 }

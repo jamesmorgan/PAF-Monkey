@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -49,6 +50,10 @@ public class TableDefinitionBuilder {
 			tableDefinition.setName(element.getAttribute("name"));
 			tableDefinition.setFileName(element.getAttribute("fileName"));
 
+			if (element.hasAttribute("ignoreDuplicates")) {
+				tableDefinition.setIgnoreDuplicates(BooleanUtils.toBoolean(element.getAttribute("ignoreDuplicates")));
+			}
+
 			final List<ColumnDefinition> columnDefinitions = Lists.newArrayList();
 			tableDefinition.setColumns(columnDefinitions);
 			final NodeList nodeList = element.getElementsByTagName("column");
@@ -57,7 +62,8 @@ public class TableDefinitionBuilder {
 				final ColumnDefinition definition = new ColumnDefinition();
 				columnDefinitions.add(definition);
 
-				final NodeList nodes = nodeList.item(i).getChildNodes();
+				final NodeList nodes = nodeList.item(i)
+					.getChildNodes();
 				for (int x = 0; x < nodes.getLength(); x++) {
 					setColumnDefinitionFields(definition, nodes.item(x));
 				}
@@ -89,6 +95,7 @@ public class TableDefinitionBuilder {
 	}
 
 	private static boolean isNodeEqual(final Node node, final String toMatch) {
-		return node.getNodeName().equals(toMatch);
+		return node.getNodeName()
+			.equals(toMatch);
 	}
 }

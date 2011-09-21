@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `paf_address`;
 CREATE TABLE `paf_address` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `AddressKey` int(10) unsigned NOT NULL DEFAULT '0',
@@ -20,7 +21,7 @@ CREATE TABLE `paf_address` (
   `SmallUserOrganisationIndicator` varchar(1) NOT NULL DEFAULT '',
   `POBoxNumber` varchar(6) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`),
-  UNIQUE KEY(`AddressKey`,`OrganisationKey`,`PostcodeType`),
+  UNIQUE KEY(`AddressKey`,`OrganisationKey`,`PostcodeType`, `LocalityKey`, `ThoroughfareKey`),
   KEY paf_address_index1 (`AddressKey`),
   KEY paf_address_index2 (`Postcode`),
   KEY paf_address_index3 (`LocalityKey`),

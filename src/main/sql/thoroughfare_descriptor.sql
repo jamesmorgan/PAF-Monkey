@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `thoroughfare_descriptor`;
 CREATE TABLE `thoroughfare_descriptor` (
   `ThoroughfareDescriptorKey` int(10) unsigned NOT NULL DEFAULT '0',
   `ThoroughfareDescriptor` varchar(20) NOT NULL DEFAULT '',

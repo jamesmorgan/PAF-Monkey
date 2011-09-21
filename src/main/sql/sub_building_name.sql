@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `sub_building_name`;
 CREATE TABLE `sub_building_name` (
   `SubBuildingNameKey` int(10) unsigned NOT NULL DEFAULT '0',
   `SubBuildingName` varchar(30) NOT NULL DEFAULT '',

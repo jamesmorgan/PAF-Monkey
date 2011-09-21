@@ -18,6 +18,7 @@ public class TableDefinition {
 	private String name;
 	private String fileName;
 	private List<ColumnDefinition> columns;
+	private boolean ignoreDuplicates = false;
 
 	public String getName() {
 		return this.name;
@@ -58,6 +59,14 @@ public class TableDefinition {
 
 	public void setColumns(final List<ColumnDefinition> columns) {
 		this.columns = columns;
+	}
+
+	public void setIgnoreDuplicates(final boolean ignoreDuplicates) {
+		this.ignoreDuplicates = ignoreDuplicates;
+	}
+
+	public boolean getIgnoreDuplicates() {
+		return this.ignoreDuplicates;
 	}
 
 	public int getTotalLineLength() {

@@ -42,7 +42,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 	private ReportGenerator reportGenerator;
 
 	@Value("${paf.load.maxBatchSize}")
-	private final int maxBatchSize = 1000;
+	int maxBatchSize = 1000;
 
 	@Override
 	public void sourcePafFiles(final CommandLinePafArgs pafArgs) {
@@ -78,18 +78,20 @@ public class PafParsingServiceImpl implements PafParsingService {
 			final TableDefinition definition = Iterables.find(tableDefinitions, new Predicate<TableDefinition>() {
 				@Override
 				public boolean apply(final TableDefinition input) {
-					return dataFile.getName().startsWith(input.getFileName());
+					return dataFile.getName()
+						.startsWith(input.getFileName());
 				}
 			});
 			if (!tableToFilesMapping.containsKey(definition)) {
 				tableToFilesMapping.put(definition, new ArrayList<File>());
 			}
-			tableToFilesMapping.get(definition).add(dataFile);
+			tableToFilesMapping.get(definition)
+				.add(dataFile);
 		}
 		return tableToFilesMapping;
 	}
 
-	private int populateTable(final CommandLinePafArgs pafArgs, final TableDefinition definition, final List<File> dataFiles) {
+	protected int populateTable(final CommandLinePafArgs pafArgs, final TableDefinition definition, final List<File> dataFiles) {
 		int totalInsertCount = 0;
 
 		final int dataFilesSize = dataFiles.size();
@@ -108,11 +110,14 @@ public class PafParsingServiceImpl implements PafParsingService {
 
 					dataCollector.eatLine(definition, line);
 
-					if (dataCollector.notRemovedHeaderRow()) {
-						dataCollector.removeHeaderRow();
-					}
 					batchCount++;
 					totalInsertCount++;
+
+					if (dataCollector.notRemovedHeaderRow()) {
+						dataCollector.removeHeaderRow();
+						batchCount--;
+						totalInsertCount--;
+					}
 
 					if (reachedMaxBatchSize(batchCount)) {
 						if (pafArgs.verbose) {
@@ -124,7 +129,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 					}
 				}
 
-				if (dataCollector.isFirstOrLastInSeries()) {
+				if (dataCollector.shouldRemoveFooterRow()) {
 					dataCollector.removeFooterRow();
 				}
 				if (dataCollector.batchNotEmpty()) {

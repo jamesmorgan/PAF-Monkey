@@ -6,16 +6,16 @@ import com.google.common.collect.Lists;
 
 public class DataCollector {
 
-	private List<Object[]> parameters = Lists.newArrayList();
+	private final List<Object[]> parameters = Lists.newArrayList();
 
 	private boolean removedFirstRow = false;
 
-	private final int dataFileIndex;
-	private final int dataFilesSize;
+	private final int currentDataFileIndex;
+	private final int totalDataFilesCount;
 
-	public DataCollector(final int dataFilesSize, final int dataFileIndex) {
-		this.dataFilesSize = dataFilesSize;
-		this.dataFileIndex = dataFileIndex;
+	public DataCollector(final int totalDataFilesCount, final int currentDataFileIndex) {
+		this.totalDataFilesCount = totalDataFilesCount;
+		this.currentDataFileIndex = currentDataFileIndex;
 	}
 
 	public void removeHeaderRow() {
@@ -35,7 +35,7 @@ public class DataCollector {
 	}
 
 	public void clearBatch() {
-		this.parameters = Lists.newArrayList();
+		this.parameters.clear();
 	}
 
 	public List<Object[]> getBatch() {
@@ -70,19 +70,19 @@ public class DataCollector {
 					: Integer.valueOf(paramValue);
 		}
 		catch (final NumberFormatException e) {
-			return null;
+			return 0;
 		}
 	}
 
 	public boolean notRemovedHeaderRow() {
-		return !this.removedFirstRow && isFirstOrLastInSeries();
+		return !this.removedFirstRow && this.currentDataFileIndex == 0;
 	}
 
 	/**
-	 * Only remove the footer row if one data file or the last in a series
+	 * Only remove the footer row if last in a series
 	 */
-	public boolean isFirstOrLastInSeries() {
-		return 1 == this.dataFilesSize || this.dataFileIndex == this.dataFilesSize - 1;
+	public boolean shouldRemoveFooterRow() {
+		return this.currentDataFileIndex == this.totalDataFilesCount - 1;
 	}
 
 	public boolean batchNotEmpty() {
