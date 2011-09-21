@@ -42,11 +42,11 @@ public class PafChangeLog {
 	}
 
 	public final void finish() {
-		this.startDate = new Date();
+		this.endDate = new Date();
 	}
 
 	public final void begin() {
-		this.endDate = new Date();
+		this.startDate = new Date();
 	}
 
 	public final int getBuildNames() {
