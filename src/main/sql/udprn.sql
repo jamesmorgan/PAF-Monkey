@@ -9,4 +9,6 @@ CREATE TABLE `udprn` (
   `SuOrganisationIndicator` VARCHAR(1) NOT NULL DEFAULT '',
   PRIMARY KEY (`Postcode`,`AddressKey`,`OrganisationKey`),
   KEY `udprn_index1` (`UdprnKey`)
+  KEY `udprn_index2` (`AddressKey`)
+  KEY `udprn_index3` (`OrganisationKey`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;

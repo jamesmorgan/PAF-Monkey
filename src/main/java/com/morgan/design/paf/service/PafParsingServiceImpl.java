@@ -131,6 +131,7 @@ public class PafParsingServiceImpl implements PafParsingService {
 
 				if (dataCollector.shouldRemoveFooterRow()) {
 					dataCollector.removeFooterRow();
+					totalInsertCount--;
 				}
 				if (dataCollector.batchNotEmpty()) {
 					if (pafArgs.verbose) {
