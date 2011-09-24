@@ -78,15 +78,13 @@ public class PafParsingServiceImpl implements PafParsingService {
 			final TableDefinition definition = Iterables.find(tableDefinitions, new Predicate<TableDefinition>() {
 				@Override
 				public boolean apply(final TableDefinition input) {
-					return dataFile.getName()
-						.startsWith(input.getFileName());
+					return dataFile.getName().startsWith(input.getFileName());
 				}
 			});
 			if (!tableToFilesMapping.containsKey(definition)) {
 				tableToFilesMapping.put(definition, new ArrayList<File>());
 			}
-			tableToFilesMapping.get(definition)
-				.add(dataFile);
+			tableToFilesMapping.get(definition).add(dataFile);
 		}
 		return tableToFilesMapping;
 	}
@@ -101,44 +99,25 @@ public class PafParsingServiceImpl implements PafParsingService {
 			this.logger.debug("Inserting data file: [{}]", dataFile.getName());
 
 			try {
-				final IterableBufferedFileReader fileReader = new IterableBufferedFileReader(dataFile);
+				final DataCollector dataCollector = new DataCollector(dataFilesSize, currentDateFileIndex, this.maxBatchSize);
+				dataCollector.setDefinition(definition);
 
-				final DataCollector dataCollector = new DataCollector(dataFilesSize, currentDateFileIndex);
-
-				int batchCount = 0;
-				for (final String line : fileReader) {
-
-					dataCollector.eatLine(definition, line);
-
-					batchCount++;
-					totalInsertCount++;
-
-					if (dataCollector.notRemovedHeaderRow()) {
-						dataCollector.removeHeaderRow();
-						batchCount--;
-						totalInsertCount--;
-					}
-
-					if (reachedMaxBatchSize(batchCount)) {
-						if (pafArgs.verbose) {
-							this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
-						}
-						this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
-						batchCount = 0;
+				for (final String line : new IterableBufferedFileReader(dataFile)) {
+					dataCollector.eatLine(line);
+					if (dataCollector.reachedMaxBatchSize()) {
+						saveBatch(pafArgs, definition, dataCollector);
 						dataCollector.clearBatch();
 					}
 				}
 
 				if (dataCollector.shouldRemoveFooterRow()) {
 					dataCollector.removeFooterRow();
-					totalInsertCount--;
 				}
 				if (dataCollector.batchNotEmpty()) {
-					if (pafArgs.verbose) {
-						this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(), totalInsertCount);
-					}
-					this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
+					saveBatch(pafArgs, definition, dataCollector);
 				}
+
+				totalInsertCount += dataCollector.getTotalInsertCount();
 			}
 			catch (final Exception e) {
 				this.logger.error("Unknown Exception: ", e);
@@ -148,8 +127,12 @@ public class PafParsingServiceImpl implements PafParsingService {
 		return totalInsertCount;
 	}
 
-	private boolean reachedMaxBatchSize(final int batchCount) {
-		return batchCount == this.maxBatchSize;
+	private void saveBatch(final CommandLinePafArgs pafArgs, final TableDefinition definition, final DataCollector dataCollector) {
+		if (pafArgs.verbose) {
+			this.verboseLogger.debug("Batch insert, Table=[{}], Total Count=[{}]", definition.getName(),
+					dataCollector.getTotalInsertCount());
+		}
+		this.pafRepository.saveBatch(pafArgs, definition, dataCollector.getBatch());
 	}
 
 }
