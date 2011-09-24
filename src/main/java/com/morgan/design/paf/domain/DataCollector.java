@@ -26,7 +26,6 @@ public class DataCollector {
 	public void removeFooterRow() {
 		if (this.parameters.size() != 0) {
 			this.parameters.remove(this.parameters.size() - 1);
-			this.removedFirstRow = true;
 		}
 	}
 
@@ -64,13 +63,22 @@ public class DataCollector {
 
 	private Object extractColumnData(final String line, final int currentCharIndex, final ColumnDefinition column) {
 		final String paramValue = line.substring(currentCharIndex, currentCharIndex + column.getLength());
+		return column.isAlphaNumeric()
+				? (String) paramValue.trim()
+				: extractIntValue(column, paramValue);
+	}
+
+	private Integer extractIntValue(final ColumnDefinition column, final String paramValue) {
 		try {
-			return column.isAlphaNumeric()
-					? (String) paramValue.trim()
-					: Integer.valueOf(paramValue);
+			final Integer intVal = Integer.valueOf(paramValue);
+			return column.isNullable() && 0 == intVal
+					? null
+					: intVal;
 		}
 		catch (final NumberFormatException e) {
-			return 0;
+			return column.isNullable()
+					? null
+					: 0;
 		}
 	}
 

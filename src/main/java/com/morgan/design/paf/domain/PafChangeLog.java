@@ -14,7 +14,7 @@ public class PafChangeLog {
 	private static final String THOROUGHFARE_KEY = "thoroughfare";
 	private static final String SUB_BUILDING_NAME = "sub_building_name";
 	private static final String PAF_ADDRESS__KEY = "paf_address";
-	private static final String ORGANISATION_KEY = "organisation";
+	private static final String ORGANISATION_KEY = "organisations";
 	private static final String MAILSORT_KEY = "mailsort";
 	private static final String LOCALITIES_KEY = "localities";
 	private static final String BUILDING_NAMES_KEY = "building_names";

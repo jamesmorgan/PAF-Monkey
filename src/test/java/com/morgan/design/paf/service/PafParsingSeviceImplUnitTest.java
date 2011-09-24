@@ -67,12 +67,12 @@ public class PafParsingSeviceImplUnitTest {
 
 		this.context.checking(new Expectations() {
 			{
-				one(pafRepository).saveBatch(with(args), with(udprnDef), with(isObjectArray(batch1)));
-				one(pafRepository).saveBatch(with(args), with(udprnDef), with(isObjectArray(batch2)));
-				one(pafRepository).saveBatch(with(args), with(udprnDef), with(isObjectArray(batch3)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(udprnDef), with(isObjectArray(batch1)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(udprnDef), with(isObjectArray(batch2)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(udprnDef), with(isObjectArray(batch3)));
 
-				one(pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
-				one(reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
 			}
 		});
 		this.pafParsingSevice.sourcePafFiles(args);
@@ -81,15 +81,15 @@ public class PafParsingSeviceImplUnitTest {
 	@Test
 	public void shouldCorrectlyParseMultipleAddressFiles() {
 		final TableDefinition addressDef =
-				TableDefinitionBuilder.loadTableDefinition(new File("src\\main\\resources\\definitions\\address.xml"));
+				TableDefinitionBuilder.loadTableDefinition(new File("src\\main\\resources\\definitions\\paf_address.xml"));
 
 		final CommandLinePafArgs args = new CommandLinePafArgs();
 		args.definitionDirectory = "src\\main\\resources\\definitions\\";
 		args.directory = "src\\test\\resources\\test_data\\data\\parsing\\address\\";
 
 		final List<Object[]> batch1 = Lists.newArrayList();
-		batch1.add(new Object[] { "AB10", "1AA", 1896311, 2, 217, 2, 0, 0, 0, 974383, 0, 1, 0, "L", "", "1A", "", "" });
-		batch1.add(new Object[] { "AB10", "1AB", 1896312, 2, 217, 2, 0, 0, 0, 974385, 0, 1, 0, "L", "", "1A", "", "" });
+		batch1.add(new Object[] { "AB10", "1AA", 1896311, 2, 217, 2, 0, 0, null, 974383, 0, 1, 0, "L", "", "1A", "", "" });
+		batch1.add(new Object[] { "AB10", "1AB", 1896312, 2, 217, 2, 0, 0, null, 974385, 0, 1, 0, "L", "", "1A", "", "" });
 
 		final List<Object[]> batch2 = Lists.newArrayList();
 		batch2.add(new Object[] { "DA1", "5JF", 4976886, 14979, 1039, 12, 0, 0, 1, 0, 0, 1, 0, "S", "", "1A", "", "" });
@@ -97,9 +97,9 @@ public class PafParsingSeviceImplUnitTest {
 		batch2.add(new Object[] { "DA1", "5JF", 4976889, 14979, 1039, 12, 0, 0, 105, 0, 0, 1, 0, "S", "", "1E", "", "" });
 
 		final List<Object[]> batch3 = Lists.newArrayList();
-		batch3.add(new Object[] { "KY6", "3HN", 28255102, 10625, 170065, 1, 0, 0, 0, 31483, 0, 1, 0, "S", "", "1B", "", "" });
-		batch3.add(new Object[] { "KY6", "3HN", 28255103, 10625, 170065, 1, 0, 0, 0, 1558055, 0, 1, 0, "S", "", "1D", "", "" });
-		batch3.add(new Object[] { "KY6", "3HN", 28508359, 10625, 170065, 1, 0, 0, 0, 8268, 0, 1, 0, "S", "", "1E", "", "" });
+		batch3.add(new Object[] { "KY6", "3HN", 28255102, 10625, 170065, 1, 0, 0, null, 31483, 0, 1, 0, "S", "", "1B", "", "" });
+		batch3.add(new Object[] { "KY6", "3HN", 28255103, 10625, 170065, 1, 0, 0, null, 1558055, 0, 1, 0, "S", "", "1D", "", "" });
+		batch3.add(new Object[] { "KY6", "3HN", 28508359, 10625, 170065, 1, 0, 0, null, 8268, 0, 1, 0, "S", "", "1E", "", "" });
 
 		final List<Object[]> batch4 = Lists.newArrayList();
 		batch4.add(new Object[] { "TN31", "7US", 33705088, 9956, 6704, 5, 0, 0, 1, 0, 0, 1, 0, "S", "", "1A", "", "" });
@@ -108,13 +108,13 @@ public class PafParsingSeviceImplUnitTest {
 
 		this.context.checking(new Expectations() {
 			{
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch1)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch2)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch3)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch4)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch1)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch2)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch3)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch4)));
 
-				one(pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
-				one(reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
 			}
 		});
 		this.pafParsingSevice.sourcePafFiles(args);
@@ -143,9 +143,9 @@ public class PafParsingSeviceImplUnitTest {
 
 		this.context.checking(new Expectations() {
 			{
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch)));
-				one(pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
-				one(reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
 			}
 		});
 		this.pafParsingSevice.sourcePafFiles(args);
@@ -154,7 +154,7 @@ public class PafParsingSeviceImplUnitTest {
 	@Test
 	public void shouldCorrectlyParseSingleBuilingNamesFileWithBatchSizeOfTwo() {
 		// Set batch size to 2
-		ReflectionTestUtils.setField(pafParsingSevice, "maxBatchSize", 2);
+		ReflectionTestUtils.setField(this.pafParsingSevice, "maxBatchSize", 2);
 
 		final TableDefinition addressDef =
 				TableDefinitionBuilder.loadTableDefinition(new File("src\\main\\resources\\definitions\\building_names.xml"));
@@ -185,13 +185,13 @@ public class PafParsingSeviceImplUnitTest {
 
 		this.context.checking(new Expectations() {
 			{
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch1)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch2)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch3)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch4)));
-				one(pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch5)));
-				one(pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
-				one(reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch1)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch2)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch3)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch4)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch5)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
 			}
 		});
 		this.pafParsingSevice.sourcePafFiles(args);
@@ -217,12 +217,12 @@ public class PafParsingSeviceImplUnitTest {
 			}
 			final List<Object[]> converted = (List<Object[]>) arg;
 
-			if (converted.size() != batch.size()) {
+			if (converted.size() != this.batch.size()) {
 				return false;
 			}
 
 			for (int i = 0; i < converted.size(); i++) {
-				assertThat(converted.get(i), is(batch.get(i)));
+				assertThat(converted.get(i), is(this.batch.get(i)));
 			}
 			return true;
 		}

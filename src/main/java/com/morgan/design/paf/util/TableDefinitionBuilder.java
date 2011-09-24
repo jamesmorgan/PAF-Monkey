@@ -28,6 +28,14 @@ public class TableDefinitionBuilder {
 
 	private static final Logger logger = LoggerFactory.getLogger(TableDefinitionBuilder.class);
 
+	private static final String TYPE = "type";
+	private static final String LENGTH = "length";
+	private static final String NAME = "name";
+	private static final String NULLABLE = "nullable";
+	private static final String COLUMN = "column";
+	private static final String IGNORE_DUPLICATES = "ignoreDuplicates";
+	private static final String FILE_NAME = "fileName";
+
 	public static final List<TableDefinition> parseDefinitionFiles(final String definitionDirectory) {
 		final List<TableDefinition> definitions = Lists.newArrayList();
 		for (final File fileDef : FileLoaderUtils.loadDefinitionFiles(definitionDirectory)) {
@@ -47,23 +55,27 @@ public class TableDefinitionBuilder {
 			final Element element = parse.getDocumentElement();
 
 			final TableDefinition tableDefinition = new TableDefinition();
-			tableDefinition.setName(element.getAttribute("name"));
-			tableDefinition.setFileName(element.getAttribute("fileName"));
+			tableDefinition.setName(element.getAttribute(NAME));
+			tableDefinition.setFileName(element.getAttribute(FILE_NAME));
 
-			if (element.hasAttribute("ignoreDuplicates")) {
-				tableDefinition.setIgnoreDuplicates(BooleanUtils.toBoolean(element.getAttribute("ignoreDuplicates")));
+			if (element.hasAttribute(IGNORE_DUPLICATES)) {
+				tableDefinition.setIgnoreDuplicates(BooleanUtils.toBoolean(element.getAttribute(IGNORE_DUPLICATES)));
 			}
 
 			final List<ColumnDefinition> columnDefinitions = Lists.newArrayList();
 			tableDefinition.setColumns(columnDefinitions);
-			final NodeList nodeList = element.getElementsByTagName("column");
+			final NodeList nodeList = element.getElementsByTagName(COLUMN);
+
 			for (int i = 0; i < nodeList.getLength(); i++) {
 
 				final ColumnDefinition definition = new ColumnDefinition();
 				columnDefinitions.add(definition);
 
-				final NodeList nodes = nodeList.item(i)
-					.getChildNodes();
+				final Node item = nodeList.item(i);
+
+				setNullableColumn(definition, item);
+
+				final NodeList nodes = item.getChildNodes();
 				for (int x = 0; x < nodes.getLength(); x++) {
 					setColumnDefinitionFields(definition, nodes.item(x));
 				}
@@ -82,14 +94,22 @@ public class TableDefinitionBuilder {
 		return null;
 	}
 
+	private static void setNullableColumn(final ColumnDefinition definition, final Node item) {
+		final Node nullableCollumn = item.getAttributes()
+			.getNamedItem(NULLABLE);
+		if (null != nullableCollumn) {
+			definition.setNullable(BooleanUtils.toBoolean(nullableCollumn.getNodeValue()));
+		}
+	}
+
 	private static void setColumnDefinitionFields(final ColumnDefinition definition, final Node currentNode) {
-		if (isNodeEqual(currentNode, "name")) {
+		if (isNodeEqual(currentNode, NAME)) {
 			definition.setName(currentNode.getTextContent());
 		}
-		if (isNodeEqual(currentNode, "length")) {
+		if (isNodeEqual(currentNode, LENGTH)) {
 			definition.setLength(Integer.valueOf(currentNode.getTextContent()));
 		}
-		if (isNodeEqual(currentNode, "type")) {
+		if (isNodeEqual(currentNode, TYPE)) {
 			definition.setType(currentNode.getTextContent());
 		}
 	}

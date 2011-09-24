@@ -22,19 +22,19 @@ public class SqlUtilsUnitTest {
 		assertThat(retrieveFiles.length, Is.is(10));
 
 		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles("src\\main\\resources\\definitions\\");
-		assertThat(
-				SqlUtils.createBatchUpdateStatement(definitionFiles.get(0)),
-				Is.is("INSERT INTO `paf_address` (`PostcodeOutwardCode`,`PostcodeInwardCode`,`AddressKey`,`LocalityKey`,`ThoroughfareKey`,`ThoroughfareDescriptorKey`,`DependentThoroughfareKey`,`DependentThoroughfareDescriptorKey`,`BuildingNumber`,`BuildingNameKey`,`SubBuildingNameKey`,`NumberOfHouseholds`,`OrganisationKey`,`PostcodeType`,`ConcatenationIndicator`,`DeliveryPointSuffix`,`SmallUserOrganisationIndicator`,`POBoxNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"));
-		assertThat(SqlUtils.createBatchUpdateStatement(definitionFiles.get(1)),
+		assertThat(SqlUtils.createBatchUpdateStatement(definitionFiles.get(0)),
 				Is.is("INSERT INTO `building_names` (`BuildingNameKey`,`BuildingName`) VALUES (?,?)"));
-		assertThat(SqlUtils.createBatchUpdateStatement(definitionFiles.get(2)),
+		assertThat(SqlUtils.createBatchUpdateStatement(definitionFiles.get(1)),
 				Is.is("INSERT INTO `localities` (`LocalityKey`,`PostTown`,`DependentLocality`,`DoubleDependentLocality`) VALUES (?,?,?,?)"));
 		assertThat(
-				SqlUtils.createBatchUpdateStatement(definitionFiles.get(3)),
+				SqlUtils.createBatchUpdateStatement(definitionFiles.get(2)),
 				Is.is("INSERT INTO `mailsort` (`PostcodeOutwardCode`,`PostcodeSector`,`ResidueIdentifier`,`DirectWithinResidueIndicator`) VALUES (?,?,?,?)"));
 		assertThat(
-				SqlUtils.createBatchUpdateStatement(definitionFiles.get(4)),
+				SqlUtils.createBatchUpdateStatement(definitionFiles.get(3)),
 				Is.is("INSERT INTO `organisations` (`OrganisationKey`,`PostcodeType`,`OrganisationName`,`DepartmentName`) VALUES (?,?,?,?)"));
+		assertThat(
+				SqlUtils.createBatchUpdateStatement(definitionFiles.get(4)),
+				Is.is("INSERT INTO `paf_address` (`PostcodeOutwardCode`,`PostcodeInwardCode`,`AddressKey`,`LocalityKey`,`ThoroughfareKey`,`ThoroughfareDescriptorKey`,`DependentThoroughfareKey`,`DependentThoroughfareDescriptorKey`,`BuildingNumber`,`BuildingNameKey`,`SubBuildingNameKey`,`NumberOfHouseholds`,`OrganisationKey`,`PostcodeType`,`ConcatenationIndicator`,`DeliveryPointSuffix`,`SmallUserOrganisationIndicator`,`POBoxNumber`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"));
 		assertThat(SqlUtils.createBatchUpdateStatement(definitionFiles.get(5)),
 				Is.is("INSERT INTO `sub_building_name` (`SubBuildingNameKey`,`SubBuildingName`) VALUES (?,?)"));
 		assertThat(SqlUtils.createBatchUpdateStatement(definitionFiles.get(6)),

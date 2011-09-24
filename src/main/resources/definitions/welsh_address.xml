@@ -39,7 +39,7 @@
 		<length>4</length>
 		<type>N</type>
 	</column>
-	<column>
+	<column nullable="true">
 		<name>BuildingNumber</name>
 		<length>4</length>
 		<type>N</type>

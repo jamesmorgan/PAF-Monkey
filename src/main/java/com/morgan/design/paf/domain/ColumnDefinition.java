@@ -13,6 +13,7 @@ public class ColumnDefinition {
 	private String name;
 	private int length;
 	private String type;
+	private boolean nullable = false;
 
 	public static ColumnDefinition create(final String name, final int length, final String type) {
 		final ColumnDefinition definition = new ColumnDefinition();
@@ -46,12 +47,20 @@ public class ColumnDefinition {
 		this.type = type;
 	}
 
+	public void setNullable(final boolean nullable) {
+		this.nullable = nullable;
+	}
+
 	public boolean isAlphaNumeric() {
 		return this.type.equals("A");
 	}
 
 	public boolean isNotFiller() {
 		return !this.name.equalsIgnoreCase("Filler");
+	}
+
+	public Boolean isNullable() {
+		return this.nullable;
 	}
 
 	@Override
@@ -68,4 +77,5 @@ public class ColumnDefinition {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+
 }

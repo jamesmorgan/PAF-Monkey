@@ -5,4 +5,4 @@ CREATE TABLE `localities` (
   `DependentLocality` varchar(35) NOT NULL DEFAULT '',
   `DoubleDependentLocality` varchar(35) NOT NULL DEFAULT '',
   PRIMARY KEY (`LocalityKey`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -21,11 +21,11 @@ public class TableDefinitionBuilderUnitTest {
 
 		final File[] retrieveFiles = FileLoaderUtils.loadDefinitionFiles("src\\main\\resources\\definitions\\");
 		assertThat(retrieveFiles.length, Is.is(10));
-		assertThat(retrieveFiles[0].toString(), Is.is("src\\main\\resources\\definitions\\address.xml"));
-		assertThat(retrieveFiles[1].toString(), Is.is("src\\main\\resources\\definitions\\building_names.xml"));
-		assertThat(retrieveFiles[2].toString(), Is.is("src\\main\\resources\\definitions\\localities.xml"));
-		assertThat(retrieveFiles[3].toString(), Is.is("src\\main\\resources\\definitions\\mailsort.xml"));
-		assertThat(retrieveFiles[4].toString(), Is.is("src\\main\\resources\\definitions\\organisations.xml"));
+		assertThat(retrieveFiles[0].toString(), Is.is("src\\main\\resources\\definitions\\building_names.xml"));
+		assertThat(retrieveFiles[1].toString(), Is.is("src\\main\\resources\\definitions\\localities.xml"));
+		assertThat(retrieveFiles[2].toString(), Is.is("src\\main\\resources\\definitions\\mailsort.xml"));
+		assertThat(retrieveFiles[3].toString(), Is.is("src\\main\\resources\\definitions\\organisations.xml"));
+		assertThat(retrieveFiles[4].toString(), Is.is("src\\main\\resources\\definitions\\paf_address.xml"));
 		assertThat(retrieveFiles[5].toString(), Is.is("src\\main\\resources\\definitions\\sub_building_names.xml"));
 		assertThat(retrieveFiles[6].toString(), Is.is("src\\main\\resources\\definitions\\thoroughfare.xml"));
 		assertThat(retrieveFiles[7].toString(), Is.is("src\\main\\resources\\definitions\\thoroughfare_descriptor.xml"));
@@ -49,11 +49,15 @@ public class TableDefinitionBuilderUnitTest {
 		final List<TableDefinition> definitionFiles = TableDefinitionBuilder.parseDefinitionFiles("src\\main\\resources\\definitions\\");
 		assertThat(definitionFiles.size(), Is.is(10));
 		assertThat(definitionFiles.get(8), Is.is(udprnTableDef));
-		
-		assertThat(definitionFiles.get(9).getName(), Is.is("paf_address"));
-		assertThat(definitionFiles.get(9).getFileName(), Is.is("wfmainfl"));
-		assertThat(definitionFiles.get(9).getIgnoreDuplicates(), Is.is(true));
-		
+
+		final TableDefinition pafAddressDef = definitionFiles.get(9);
+		assertThat(pafAddressDef.getName(), Is.is("paf_address"));
+		assertThat(pafAddressDef.getFileName(), Is.is("wfmainfl"));
+		assertThat(pafAddressDef.getIgnoreDuplicates(), Is.is(true));
+		final ColumnDefinition buildNameColumn = pafAddressDef.getColumns()
+			.get(8);
+		assertThat(buildNameColumn.getName(), Is.is("BuildingNumber"));
+		assertThat(buildNameColumn.isNullable(), Is.is(true));
 
 	}
 }
