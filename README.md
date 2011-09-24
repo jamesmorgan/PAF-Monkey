@@ -31,6 +31,8 @@ e.g. -directory YourFullPathDir -host DbHost -username DbUser -password DbPasswo
 * --verbose = Include this to enable more verbose logging and log every batch insert, default false
 * -schema = The database name to use when populating paf data, default 'paf'
 * -definitionDirectory = The directory where the definition files data are held, default 'src/main/resources/definitions'
+* -db = Specify either mysql or mongo, this will attempt to load the PAF data in to either data store
+* -port = override the default port for each data store, default for mysql = 3306, default for mongodb = 27017. If no port is specified the defaults are used accoridng to the db type specified. 
 
 ### Unused / deprecated Arguments
 
