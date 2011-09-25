@@ -109,7 +109,7 @@ public class DataCollector {
 
 	private Object extractColumnData(final String line, final int currentCharIndex, final ColumnDefinition column) {
 		final String paramValue = line.substring(currentCharIndex, currentCharIndex + column.getLength());
-		return column.isAlphaNumeric()
+		return column.isVarChar()
 				? (String) paramValue.trim()
 				: extractIntValue(column, paramValue);
 	}

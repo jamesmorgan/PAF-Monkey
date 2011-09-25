@@ -113,7 +113,6 @@ public class PafChangeLog {
 	}
 
 	public void setCount(final TableDefinition definition, final int totalInsertCount) {
-		// TODO prevent this object from knowing about the db?
 		if (BUILDING_NAMES_KEY.equalsIgnoreCase(definition.getName())) {
 			this.buildNames = totalInsertCount;
 		}
@@ -140,6 +139,9 @@ public class PafChangeLog {
 		}
 		else if (UDPRN_KEY.equalsIgnoreCase(definition.getName())) {
 			this.udprn = totalInsertCount;
+		}
+		else {
+			throw new IllegalArgumentException("Unknown table: " + definition.getName());
 		}
 	}
 }

@@ -12,7 +12,7 @@ public class ColumnDefinition {
 
 	private String name;
 	private int length;
-	private String type;
+	private ColumnType type;
 	private boolean nullable = false;
 
 	public static ColumnDefinition create(final String name, final int length, final String type) {
@@ -39,20 +39,16 @@ public class ColumnDefinition {
 		this.length = length;
 	}
 
-	public String getType() {
-		return this.type;
-	}
-
 	public void setType(final String type) {
-		this.type = type;
+		this.type = ColumnType.fromString(type);
 	}
 
 	public void setNullable(final boolean nullable) {
 		this.nullable = nullable;
 	}
 
-	public boolean isAlphaNumeric() {
-		return this.type.equals("A");
+	public boolean isVarChar() {
+		return this.type.isVarChar();
 	}
 
 	public boolean isNotFiller() {
