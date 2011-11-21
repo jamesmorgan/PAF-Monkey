@@ -1,3 +1,4 @@
+-- Y11M08
 SELECT COUNT(*) FROM `building_names`; -- 2351722
 SELECT COUNT(*) FROM `localities`; -- 41551
 SELECT COUNT(*) FROM `mailsort`; -- 11184
@@ -9,5 +10,28 @@ SELECT COUNT(*) FROM `thoroughfare`; -- 208123
 SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 210
 SELECT COUNT(*) FROM `udprn`; -- 28899851
 
+-- YllM09
+SELECT COUNT(*) FROM `building_names`; -- 2359711
+SELECT COUNT(*) FROM `localities`; -- 41562
+SELECT COUNT(*) FROM `mailsort`; -- 11184
+SELECT COUNT(*) FROM `organisations`; -- 1416080
+SELECT COUNT(*) FROM `paf_address`; -- 28925812
+SELECT COUNT(*) FROM `building_names`; -- 2359711
+SELECT COUNT(*) FROM `sub_building_name`; -- 170701
+SELECT COUNT(*) FROM `thoroughfare`; -- 208299
+SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 210
+SELECT COUNT(*) FROM `udprn`; -- 28925812
 
+-- Y11M10
+
+SELECT COUNT(*) FROM `building_names`; -- 2366521
+SELECT COUNT(*) FROM `localities`; -- 41567
+SELECT COUNT(*) FROM `mailsort`; -- 11183
+SELECT COUNT(*) FROM `organisations`; -- 1416922
+SELECT COUNT(*) FROM `paf_address`; -- 28941807
+SELECT COUNT(*) FROM `building_names`; -- 2366521
+SELECT COUNT(*) FROM `sub_building_name`; -- 171103
+SELECT COUNT(*) FROM `thoroughfare`; -- 208417
+SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 210
+SELECT COUNT(*) FROM `udprn`; -- 28941807
 
