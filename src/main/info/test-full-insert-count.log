@@ -35,3 +35,15 @@ SELECT COUNT(*) FROM `thoroughfare`; -- 208417
 SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 210
 SELECT COUNT(*) FROM `udprn`; -- 28941807
 
+-- Y11M11
+
+SELECT COUNT(*) FROM `building_names`; -- 
+SELECT COUNT(*) FROM `localities`; -- 
+SELECT COUNT(*) FROM `mailsort`; -- 
+SELECT COUNT(*) FROM `organisations`; -- 
+SELECT COUNT(*) FROM `paf_address`; -- 
+SELECT COUNT(*) FROM `building_names`; -- 
+SELECT COUNT(*) FROM `sub_building_name`; -- 
+SELECT COUNT(*) FROM `thoroughfare`; -- 
+SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 
+SELECT COUNT(*) FROM `udprn`; -- 

@@ -3,6 +3,7 @@ TRUNCATE localities;
 TRUNCATE mailsort;
 TRUNCATE organisations;
 TRUNCATE paf_address;
+TRUNCATE welsh_address;
 TRUNCATE paf_Change_log;
 TRUNCATE sub_building_name;
 TRUNCATE thoroughfare;
