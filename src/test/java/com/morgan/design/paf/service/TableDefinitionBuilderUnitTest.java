@@ -51,7 +51,7 @@ public class TableDefinitionBuilderUnitTest {
 		assertThat(definitionFiles.get(8), Is.is(udprnTableDef));
 
 		final TableDefinition pafAddressDef = definitionFiles.get(9);
-		assertThat(pafAddressDef.getName(), Is.is("paf_address"));
+		assertThat(pafAddressDef.getName(), Is.is("welsh_address"));
 		assertThat(pafAddressDef.getFileName(), Is.is("wfmainfl"));
 		assertThat(pafAddressDef.getIgnoreDuplicates(), Is.is(true));
 		final ColumnDefinition buildNameColumn = pafAddressDef.getColumns()
