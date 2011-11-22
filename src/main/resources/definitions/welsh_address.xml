@@ -1,4 +1,4 @@
-<table name="paf_address" fileName="wfmainfl" ignoreDuplicates="true">
+<table name="welsh_address" fileName="wfmainfl" ignoreDuplicates="true">
 	<column>
 		<name>PostcodeOutwardCode</name>
 		<length>4</length>

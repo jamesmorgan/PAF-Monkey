@@ -14,6 +14,7 @@ public class PafChangeLog {
 	private static final String THOROUGHFARE_KEY = "thoroughfare";
 	private static final String SUB_BUILDING_NAME = "sub_building_name";
 	private static final String PAF_ADDRESS__KEY = "paf_address";
+	private static final String WELSH_ADDRESS__KEY = "welsh_address";
 	private static final String ORGANISATION_KEY = "organisations";
 	private static final String MAILSORT_KEY = "mailsort";
 	private static final String LOCALITIES_KEY = "localities";
@@ -28,6 +29,7 @@ public class PafChangeLog {
 	private int mailSort;
 	private int organisations;
 	private int pafAddress;
+	private int pafWelshAddress;
 	private int subBuildingName;
 	private int thoroughfareDescriptor;
 	private int thoroughfare;
@@ -97,6 +99,10 @@ public class PafChangeLog {
 		return this.endDate;
 	}
 
+	public int getPafWelshAddress() {
+		return this.pafWelshAddress;
+	}
+
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
@@ -139,6 +145,9 @@ public class PafChangeLog {
 		}
 		else if (UDPRN_KEY.equalsIgnoreCase(definition.getName())) {
 			this.udprn = totalInsertCount;
+		}
+		else if (WELSH_ADDRESS__KEY.equalsIgnoreCase(definition.getName())) {
+			this.pafWelshAddress = totalInsertCount;
 		}
 		else {
 			throw new IllegalArgumentException("Unknown table: " + definition.getName());

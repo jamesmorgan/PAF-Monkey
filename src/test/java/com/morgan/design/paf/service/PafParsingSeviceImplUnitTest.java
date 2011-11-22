@@ -121,6 +121,48 @@ public class PafParsingSeviceImplUnitTest {
 	}
 
 	@Test
+	public void shouldCorrectlyParseMultipleWelshAddressFiles() {
+		final TableDefinition addressDef =
+				TableDefinitionBuilder.loadTableDefinition(new File("src\\main\\resources\\definitions\\welsh_address.xml"));
+
+		final CommandLinePafArgs args = new CommandLinePafArgs();
+		args.definitionDirectory = "src\\main\\resources\\definitions\\";
+		args.directory = "src\\test\\resources\\test_data\\data\\parsing\\welsh\\address\\";
+
+		final List<Object[]> batch1 = Lists.newArrayList();
+		batch1.add(new Object[] { "AB10", "1AA", 1896311, 2, 217, 2, 0, 0, null, 974383, 0, 1, 0, "L", "", "1A", "", "" });
+		batch1.add(new Object[] { "AB10", "1AB", 1896312, 2, 217, 2, 0, 0, null, 974385, 0, 1, 0, "L", "", "1A", "", "" });
+
+		final List<Object[]> batch2 = Lists.newArrayList();
+		batch2.add(new Object[] { "DA1", "5JF", 4976886, 14979, 1039, 12, 0, 0, 1, 0, 0, 1, 0, "S", "", "1A", "", "" });
+		batch2.add(new Object[] { "DA1", "5JF", 4976887, 14979, 1039, 12, 0, 0, 101, 0, 0, 1, 0, "S", "", "1B", "", "" });
+		batch2.add(new Object[] { "DA1", "5JF", 4976889, 14979, 1039, 12, 0, 0, 105, 0, 0, 1, 0, "S", "", "1E", "", "" });
+
+		final List<Object[]> batch3 = Lists.newArrayList();
+		batch3.add(new Object[] { "KY6", "3HN", 28255102, 10625, 170065, 1, 0, 0, null, 31483, 0, 1, 0, "S", "", "1B", "", "" });
+		batch3.add(new Object[] { "KY6", "3HN", 28255103, 10625, 170065, 1, 0, 0, null, 1558055, 0, 1, 0, "S", "", "1D", "", "" });
+		batch3.add(new Object[] { "KY6", "3HN", 28508359, 10625, 170065, 1, 0, 0, null, 8268, 0, 1, 0, "S", "", "1E", "", "" });
+
+		final List<Object[]> batch4 = Lists.newArrayList();
+		batch4.add(new Object[] { "TN31", "7US", 33705088, 9956, 6704, 5, 0, 0, 1, 0, 0, 1, 0, "S", "", "1A", "", "" });
+		batch4.add(new Object[] { "ZE3", "9JZ", 11170274, 14412, 2141, 7, 0, 0, 8, 0, 0, 0, 0, "S", "", "2D", "", "" });
+		batch4.add(new Object[] { "ZE3", "9JZ", 11170275, 14412, 2141, 7, 0, 0, 9, 0, 0, 0, 0, "S", "", "2E", "", "" });
+
+		this.context.checking(new Expectations() {
+			{
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch1)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch2)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch3)));
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).saveBatch(with(args), with(addressDef), with(isObjectArray(batch4)));
+
+				one(PafParsingSeviceImplUnitTest.this.pafRepository).insertChangeLog(with(args), with(any(PafChangeLog.class)));
+				one(PafParsingSeviceImplUnitTest.this.reportGenerator).generateChangeLogReport(with(any(PafChangeLog.class)));
+			}
+		});
+		this.pafParsingSevice.sourcePafFiles(args);
+	}
+
+	@Test
 	public void shouldCorrectlyParseSingleBuilingNamesFile() {
 		final TableDefinition addressDef =
 				TableDefinitionBuilder.loadTableDefinition(new File("src\\main\\resources\\definitions\\building_names.xml"));

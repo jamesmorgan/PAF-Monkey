@@ -78,6 +78,7 @@ public class PafChangeLogReport implements Report {
 		populateCell(table, "MailSort", changeLog.getMailSort());
 		populateCell(table, "Organisations", changeLog.getOrganisations());
 		populateCell(table, "PafAddress", changeLog.getPafAddress());
+		populateCell(table, "PafWelshAddress", changeLog.getPafWelshAddress());
 		populateCell(table, "SubBuildingName", changeLog.getSubBuildingName());
 		populateCell(table, "Thoroughfare", changeLog.getThoroughfare());
 		populateCell(table, "ThoroughfareDescriptor", changeLog.getThoroughfareDescriptor());
