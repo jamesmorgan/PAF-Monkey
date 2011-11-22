@@ -47,11 +47,11 @@ public class DataCollector {
 		for (final ColumnDefinition column : this.definition.getColumns()) {
 			if (confirmValidDataLine(currentTotalLineLength, workingLine, column)) {
 				paramValues.add(extractColumnData(workingLine, currentCharIndex, column));
-				this.totalInsertCount++;
 			}
 			currentCharIndex += column.getLength();
 		}
 		collectLineData(paramValues);
+		this.totalInsertCount++;
 		this.batchCount++;
 
 		if (notRemovedHeaderRow()) {
