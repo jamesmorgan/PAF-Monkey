@@ -32,7 +32,8 @@ public class JdbcPafRepositoryImpl implements PafRepository {
 		this.pafJdbcOperations = new SimpleJdbcTemplate(this.dataSource);
 
 		final Map<String, Object> params = Maps.newHashMap();
-		params.put("mode", changeLog.getMode().toString());
+		params.put("mode", changeLog.getMode()
+			.toString());
 		params.put("buildingNames", changeLog.getBuildNames());
 		params.put("localities", changeLog.getLocalities());
 		params.put("mailSort", changeLog.getMailSort());

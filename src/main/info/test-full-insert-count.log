@@ -37,13 +37,13 @@ SELECT COUNT(*) FROM `udprn`; -- 28941807
 
 -- Y11M11
 
-SELECT COUNT(*) FROM `building_names`; -- 
-SELECT COUNT(*) FROM `localities`; -- 
-SELECT COUNT(*) FROM `mailsort`; -- 
-SELECT COUNT(*) FROM `organisations`; -- 
-SELECT COUNT(*) FROM `paf_address`; -- 
-SELECT COUNT(*) FROM `building_names`; -- 
-SELECT COUNT(*) FROM `sub_building_name`; -- 
-SELECT COUNT(*) FROM `thoroughfare`; -- 
-SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 
-SELECT COUNT(*) FROM `udprn`; -- 
+SELECT COUNT(*) FROM `building_names`; -- 2370425
+SELECT COUNT(*) FROM `localities`; -- 41569
+SELECT COUNT(*) FROM `mailsort`; -- 11182
+SELECT COUNT(*) FROM `organisations`; -- 1417686
+SELECT COUNT(*) FROM `paf_address`; -- 28959993
+SELECT COUNT(*) FROM `building_names`; -- 2370425
+SELECT COUNT(*) FROM `sub_building_name`; -- 171498
+SELECT COUNT(*) FROM `thoroughfare`; -- 208524
+SELECT COUNT(*) FROM `thoroughfare_descriptor`; -- 210
+SELECT COUNT(*) FROM `udprn`; -- 28959993
