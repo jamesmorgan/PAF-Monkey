@@ -10,5 +10,6 @@ CREATE TABLE `udprn` (
   PRIMARY KEY (`Postcode`,`AddressKey`,`OrganisationKey`),
   KEY `udprn_index1` (`UdprnKey`),
   KEY `udprn_index2` (`AddressKey`),
-  KEY `udprn_index3` (`OrganisationKey`)
+  KEY `udprn_index3` (`OrganisationKey`),
+  KEY `udprn_index4` (`PostcodeType`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
